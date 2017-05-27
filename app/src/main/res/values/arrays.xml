@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="tab">
+        <item>新闻</item>
+        <item>积分</item>
+        <item>进球</item>
+        <item>助攻</item>
+        <item>赛程</item>
+        <item>成功传球</item>
+        <item>关键传球</item>
+        <item>拦截</item>
+        <item>抢断</item>
+        <item>解围</item>
+        <item>犯规</item>
+        <item>被犯规</item>
+        <item>扑救</item>
+        <item>黄牌</item>
+        <item>红牌</item>
+        <item>出场次数</item>
+        <item>出场时间</item>
+    </string-array>
+    <!--对应Bottombar中的顺序，分别是对应联赛的新闻id-->
+    <integer-array name="league_news_id">
+        <item>56</item>
+        <item>5</item>
+        <item>3</item>
+        <item>4</item>
+        <item>6</item>
+    </integer-array>
+    <!--对应Bottombar中的顺序，分别是对应联赛球员榜与球队榜各项数据的联赛id-->
+    <integer-array name="league_rank_id">
+        <item>43</item>
+        <item>3</item>
+        <item>4</item>
+        <item>9</item>
+        <item>5</item>
+    </integer-array>
+    <!--对应Bottombar中的顺序，分别是对应联赛积分与赛程的联赛id-->
+    <integer-array name="league_team_rank_id">
+        <item>51</item>
+        <item>7</item>
+        <item>8</item>
+        <item>13</item>
+        <item>9</item>
+    </integer-array>
+
+    <string-array name="team_detail_tabs">
+        <item>赛程</item>
+        <item>球员</item>
+        <item>资料</item>
+    </string-array>
+    <string-array name="player_detail_tabs">
+        <item>联赛数据</item>
+        <item>能力值</item>
+        <item>基本资料</item>
+    </string-array>
+</resources>

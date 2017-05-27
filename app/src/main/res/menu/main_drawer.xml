@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <item android:title="专题" android:id="@+id/main_menu_1" android:icon="@drawable/ic_fiber_new_black_24dp" />
+    <item android:title="twins" android:id="@+id/main_menu_2" android:icon="@drawable/ic_local_see_black_24dp"/>
+    <item android:title="怡人" android:id="@+id/main_menu_3" android:icon="@drawable/ic_rowing_black_24dp"/>
+</menu>

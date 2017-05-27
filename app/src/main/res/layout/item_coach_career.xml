@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_marginStart="10dp"
+              android:layout_width="match_parent"
+              android:minHeight="35dp"
+              android:layout_height="35dp">
+    <TextView
+        android:layout_marginStart="10dp"
+        android:id="@+id/from"
+        android:gravity="center|start"
+        android:textSize="10sp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"/>
+    <TextView
+        android:layout_toEndOf="@id/from"
+        android:text="to"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:id="@+id/flag_"
+        android:textSize="10sp"
+        android:gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"/>
+    <TextView
+        android:layout_toEndOf="@id/flag_"
+        android:id="@+id/to"
+        android:gravity="center|start"
+        android:textSize="10sp"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"/>
+
+    <TextView
+        android:maxLines="1"
+        android:layout_toEndOf="@id/to"
+        android:textColor="@android:color/black"
+        android:id="@+id/club"
+        android:gravity="center|end"
+        android:layout_marginStart="15dp"
+        android:paddingEnd="20dp"
+        android:paddingStart="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+</RelativeLayout>

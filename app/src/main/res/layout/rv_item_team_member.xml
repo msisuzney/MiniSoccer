@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@drawable/item_click"
+    android:orientation="horizontal">
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/team_member_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="10dp"
+        app:civ_border_color="#EEEEEE"
+        app:civ_border_width="0.2dp"
+        app:civ_shadow_radius="0.8"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="6dp"
+        android:layout_marginStart="6dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/team_member_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:maxLines="1"
+            android:textColor="@android:color/black"
+            android:textSize="15sp"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/team_member_number"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                />
+
+            <TextView
+                android:id="@+id/number_suffix"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_toEndOf="@id/team_member_number"
+                android:text="号"/>
+
+
+
+            <TextView
+                android:id="@+id/goal_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="2dp"
+                />
+
+            <ImageView
+                android:id="@+id/goal_iv"
+                android:layout_width="14dp"
+                android:layout_height="14dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="3dp"
+                android:layout_toStartOf="@id/goal_count"
+                android:src="@drawable/goal"/>
+
+
+
+        </RelativeLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,180 @@
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 >
+
+        <include layout="@layout/loading_view"/>
+
+        <include layout="@layout/error_view"/>
+
+        <LinearLayout
+            android:id="@id/contentView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:background="#DBDBDB"
+                            android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/team_member_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:text="基本资料"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/team_detail_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="20dp"
+                    android:text="广州恒大淘宝"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:id="@+id/team_detail_en_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="4dp"
+                    android:text="Guangzhou Evergrande"
+                    android:textSize="16sp"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+
+                        android:id="@+id/team_detail_country"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="中国"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/team_detail_city"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginStart="6dp"
+                        android:text="广州"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/team_detail_founded"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginStart="6dp"
+                        android:text="1954"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="年成立"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/team_detail_venue_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="天河体育场"
+                        android:textColor="@android:color/black"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginStart="6dp"
+                        android:text="(可容纳"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/team_detail_venue_capacity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="60151"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="人)"
+                        android:textSize="16sp"/>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:layout_width="match_parent"
+                            android:layout_height="25dp"
+                            android:layout_marginTop="20dp"
+                            android:background="#DBDBDB"
+                            android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:text="荣誉记录"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    />
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/team_detail_info_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </android.support.v7.widget.RecyclerView>
+        </LinearLayout>
+
+    </FrameLayout>
+</android.support.v4.widget.NestedScrollView>

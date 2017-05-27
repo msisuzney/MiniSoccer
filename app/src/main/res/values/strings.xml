@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">MiniSoccer</string>
+    <string name="di">第</string>
+    <string name="lun">轮</string>
+    <string name="toast1">已是最后一轮</string>
+    <string name="toast2">已是第一轮</string>
+    <string name="pre_round">上一轮</string>
+    <string name="next_round">下一轮</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

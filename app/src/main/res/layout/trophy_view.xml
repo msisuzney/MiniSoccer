@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="80dp"
+              android:layout_height="80dp">
+
+    <ImageView
+        android:id="@+id/cup_img"
+        android:layout_marginTop="10dp"
+
+        android:src="@drawable/cup"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"/>
+
+    <TextView
+        android:id="@+id/year"
+        android:textColor="@android:color/black"
+        android:text="2014/2015"
+        android:textSize="10sp"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

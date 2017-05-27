@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+    android:id="@+id/drawer_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/main_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll|enterAlways"/>
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tabIndicatorColor="@android:color/white"
+                app:tabIndicatorHeight="3dp"
+                app:tabMode="scrollable"
+                app:tabSelectedTextColor="@android:color/white"
+                app:tabTextColor="@android:color/white"
+                />
+
+        </android.support.design.widget.AppBarLayout>
+
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="40dp"
+            android:background="@android:color/white"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+        <com.roughike.bottombar.BottomBar
+            android:id="@+id/bottomBar"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            app:bb_activeTabAlpha="1"
+            app:bb_activeTabColor="@color/colorPrimary"
+            app:bb_inActiveTabAlpha="0.5"
+            app:bb_inActiveTabColor="@android:color/black"
+            app:bb_tabXmlResource="@xml/bottombar_tabs"
+            app:bb_titleTextAppearance="@style/CustomTitleTextAppearance"
+            />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/draw_main_header"
+        app:menu="@menu/main_drawer"
+        />
+
+
+</android.support.v4.widget.DrawerLayout>

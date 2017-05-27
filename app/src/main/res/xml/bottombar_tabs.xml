@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        barColorWhenSelected="#FFFFFF"
+        id="@+id/CSLBottomBar"
+        icon="@drawable/csl"
+        title="中超"
+        />
+    <tab
+        barColorWhenSelected="#FFFFFF"
+        id="@+id/LFPBottomBar"
+        icon="@drawable/lfp"
+        title="西甲"
+        />
+    <tab
+        barColorWhenSelected="#FFFFFF"
+        id="@+id/PLBottomBar"
+        icon="@drawable/pl"
+        title="英超"
+        />
+    <tab
+        barColorWhenSelected="#FFFFFF"
+        id="@+id/SABottomBar"
+        icon="@drawable/sa"
+        title="意甲"
+        />
+    <tab
+        barColorWhenSelected="#FFFFFF"
+        id="@+id/GLBottomBar"
+        icon="@drawable/gl"
+        title="德甲"
+        />
+
+</tabs>

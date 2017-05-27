@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="75dp">
+<LinearLayout
+    android:layout_marginStart="10dp"
+    android:layout_marginTop="6dp"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="20dp">
+    <TextView
+        android:textSize="12sp"
+        android:textColor="@android:color/black"
+        android:layout_marginStart="7dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="5dp"
+        android:text="2015/2016"
+        android:id="@+id/player_league_data_season"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/player_league_data_league"
+        android:textSize="12sp"
+        android:textColor="@android:color/black"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:text="西甲"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/player_league_data_team"
+        android:textSize="12sp"
+        android:textColor="@android:color/black"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:text="巴塞罗那"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="20dp">
+        <TextView
+            android:textSize="12sp"
+            android:layout_marginTop="5dp"
+            android:text="上场"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:textSize="12sp"
+            android:layout_marginTop="5dp"
+            android:text="首发"
+            android:gravity="center"
+
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:textSize="12sp"
+            android:layout_marginTop="5dp"
+            android:text="替补"
+            android:gravity="center"
+
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:layout_marginTop="5dp"
+            android:textSize="12sp"
+            android:text="进球"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:textSize="12sp"
+
+            android:layout_marginTop="5dp"
+            android:text="助攻"
+            android:gravity="center"
+
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:textSize="12sp"
+            android:layout_marginTop="5dp"
+            android:text="黄牌"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+        <TextView
+            android:textSize="12sp"
+
+            android:layout_marginTop="5dp"
+            android:text="红牌"
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="20dp">
+        <TextView
+            android:textSize="12sp"
+
+            android:layout_marginTop="5dp"
+    android:textColor="@android:color/black"
+            android:gravity="center"
+            android:id="@+id/player_league_data_appearances"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+   <TextView
+            android:textSize="12sp"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="5dp"
+
+            android:gravity="center"
+            android:id="@+id/player_league_data_lineups"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+   <TextView
+            android:textSize="12sp"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="5dp"
+
+            android:gravity="center"
+            android:id="@+id/player_league_data_sub"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+   <TextView
+            android:textSize="12sp"
+
+            android:layout_marginTop="5dp"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:id="@+id/player_league_data_goals"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+   <TextView
+            android:textSize="12sp"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="5dp"
+
+            android:gravity="center"
+            android:id="@+id/player_league_data_assists"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+   <TextView
+            android:textSize="12sp"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="5dp"
+
+            android:gravity="center"
+            android:id="@+id/player_league_data_yellows"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+   <TextView
+            android:textSize="12sp"
+            android:textColor="@android:color/black"
+            android:layout_marginTop="5dp"
+
+            android:gravity="center"
+            android:id="@+id/player_league_data_reds"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"/>
+
+    </LinearLayout>
+</LinearLayout>
