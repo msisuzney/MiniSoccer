@@ -1,7 +1,11 @@
 package com.msisuzney.minisoccer.view.activities;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -10,10 +14,14 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.hannesdorfmann.mosby3.mvp.MvpActivity;
@@ -28,6 +36,8 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends MvpActivity<MainView, MainPresenter> implements MainView {
 
+    private static final String isFirst = "isFirst";
+    private static final String TAG = MainActivity.class.getSimpleName();
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
     @BindView(R.id.viewpager)
@@ -51,7 +61,7 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
         toolbar.setTitleTextColor(Color.WHITE);
         toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
         setSupportActionBar(toolbar);
-        initNav();
+        init();
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,9 +72,16 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
         tabLayout.setSelectedTabIndicatorColor(Color.WHITE);
         getPresenter().init();
 
+        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics metrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(metrics);
+        Log.d("metrics", metrics.widthPixels + "");
+        Log.d("metrics", metrics.densityDpi + "");
+        int count = metrics.widthPixels / 160;
+
     }
 
-    private void initNav() {
+    private void init() {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -85,10 +102,44 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
                         intent.putExtra(TwinsPresenter.KIND, TwinsPresenter.GIRL_KIND);
                         startActivity(intent);
                         break;
+                    case R.id.main_menu_4:
+                        intent = new Intent(MainActivity.this, AboutActivity.class);
+                        startActivity(intent);
+                        break;
                 }
                 return true;
             }
         });
+        SharedPreferences sp = getSharedPreferences(TAG, MODE_PRIVATE);
+        if (sp.getBoolean(isFirst, true)) {
+            SharedPreferences.Editor editor = sp.edit();
+            editor.putBoolean(isFirst, false);
+            editor.apply();
+            showDialog();
+        }
+    }
+
+    private void showDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("声明");
+        builder.setMessage("本应用只用于学习目的，数据全部来自懂球帝App\n获取足球资讯请下载懂不懂球都要用的懂球帝App");
+        builder.setPositiveButton("下载懂球帝App", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_VIEW);
+                Uri uri = Uri.parse("http://android.myapp.com/myapp/detail.htm?apkName=com.dongqiudi.news");
+                intent.setData(uri);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("我知道了", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.create().show();
     }
 
     @Override
@@ -101,10 +152,10 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (item.getItemId() == R.id.action_search){
-            Intent intent = new Intent(MainActivity.this,SearchActivity.class);
+        if (item.getItemId() == R.id.action_search) {
+            Intent intent = new Intent(MainActivity.this, SearchActivity.class);
             startActivity(intent);
-            overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
+            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
         }
 
         return true;

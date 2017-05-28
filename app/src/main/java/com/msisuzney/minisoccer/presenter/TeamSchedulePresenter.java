@@ -3,6 +3,7 @@ package com.msisuzney.minisoccer.presenter;
 import android.os.Bundle;
 
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
+import com.msisuzney.minisoccer.App;
 import com.msisuzney.minisoccer.DQDApi.model.TeamSchedule;
 import com.msisuzney.minisoccer.utils.DateTransfer;
 import com.msisuzney.minisoccer.utils.MyRetrofit;
@@ -22,14 +23,13 @@ import retrofit2.Response;
  */
 
 public class TeamSchedulePresenter extends MvpBasePresenter<TeamScheduleView> {
-    private MyRetrofit myRetrofit = MyRetrofit.getMyRetrofit();
 
     public void loadData(Bundle bundle, final boolean pullToRefresh) {
         String id;
         if (bundle == null || (id = bundle.getString(TeamScheduleFragment.TEAM_ID)) == null) {
             getView().showError(new Exception("请求参数错误"), pullToRefresh);
         } else {
-            myRetrofit.getApiService().getTeamSchedule(id).enqueue(new Callback<TeamSchedule>() {
+            App.getApp().getMyRetrofit().getApiService().getTeamSchedule(id).enqueue(new Callback<TeamSchedule>() {
                 @Override
                 public void onResponse(Call<TeamSchedule> call, Response<TeamSchedule> response) {
                     try {

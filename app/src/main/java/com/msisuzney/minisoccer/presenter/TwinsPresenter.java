@@ -32,8 +32,6 @@ public class TwinsPresenter extends MvpBasePresenter<TwinsView> {
     public static final String GIRL_KIND = "2";
     private static final long TWINS_NEXT_URL_ID = 0x1234543;
     private static final long GIRL_NEXT_URL_ID = 0x1234542;
-    private APIService api = MyRetrofit.getMyRetrofit().getApiService();
-
     private String nextPageUrl;
 
 
@@ -53,7 +51,7 @@ public class TwinsPresenter extends MvpBasePresenter<TwinsView> {
 
 
     private void loadDataFromNet(final boolean pullToRefresh, final String kind) {
-        api.getTwins(kind).enqueue(new Callback<Twins>() {
+        App.getApp().getMyRetrofit().getApiService().getTwins(kind).enqueue(new Callback<Twins>() {
             @Override
             public void onResponse(Call<Twins> call, Response<Twins> response) {
                 if (isViewAttached()) {
@@ -95,7 +93,7 @@ public class TwinsPresenter extends MvpBasePresenter<TwinsView> {
     }
 
     private void loadMoreDataFromNet(String nextPageUrl, final String kind) {
-        api.getMoreTwins(nextPageUrl).enqueue(new Callback<Twins>() {
+        App.getApp().getMyRetrofit().getApiService().getMoreTwins(nextPageUrl).enqueue(new Callback<Twins>() {
             @Override
             public void onResponse(Call<Twins> call, Response<Twins> response) {
                 if (isViewAttached()) {
@@ -137,7 +135,8 @@ public class TwinsPresenter extends MvpBasePresenter<TwinsView> {
     private void loadDataFromDB(String kind) {
         List<Feedlist> list = queryDataFromDB(kind);
         if (list.size() <= 0) {
-            loadData(LOAD_REFRESH, kind);
+            //第一次加载
+            loadDataFromNet(false,kind);
         } else {
             if (isViewAttached()) {
                 getView().setData(list);

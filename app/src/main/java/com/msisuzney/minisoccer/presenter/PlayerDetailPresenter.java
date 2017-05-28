@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
+import com.msisuzney.minisoccer.App;
 import com.msisuzney.minisoccer.DQDApi.model.PlayerDetailBase;
 import com.msisuzney.minisoccer.utils.MyRetrofit;
 import com.msisuzney.minisoccer.view.PlayerDetailView;
@@ -23,10 +24,9 @@ import retrofit2.Retrofit;
  */
 
 public class PlayerDetailPresenter extends MvpBasePresenter<PlayerDetailView> {
-    MyRetrofit myRetrofit = MyRetrofit.getMyRetrofit();
     public void loadData(Intent intent){
         String id = intent.getStringExtra(PlayerDetailActivity.PLAYER_ID);
-        myRetrofit.getApiService().getPlayerBasicInfo(id).enqueue(new Callback<PlayerDetailBase>() {
+        App.getApp().getMyRetrofit().getApiService().getPlayerBasicInfo(id).enqueue(new Callback<PlayerDetailBase>() {
             @Override
             public void onResponse(Call<PlayerDetailBase> call, Response<PlayerDetailBase> response) {
                 if(isViewAttached())

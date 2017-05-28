@@ -85,7 +85,7 @@ public class PlayerAbilityFragment extends Fragment {
                 wv.setVisibility(View.GONE);
             }
         });
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT >=21) {
             wv.getSettings().setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
         if (getArguments() == null || (id = getArguments().getString(ID)) == null || id.equals("")) {

@@ -1,5 +1,8 @@
 package com.msisuzney.minisoccer.DQDApi;
 
+import android.widget.LinearLayout;
+
+import com.msisuzney.minisoccer.DQDApi.model.LaunchImg;
 import com.msisuzney.minisoccer.DQDApi.model.PersonRanking;
 import com.msisuzney.minisoccer.DQDApi.model.PlayerDetail;
 import com.msisuzney.minisoccer.DQDApi.model.PlayerDetailBase;
@@ -84,4 +87,6 @@ public interface APIService {
 
     @GET("/search?type=all")
     Call<Search> getSearchResult(@Query("page") String page, @Query("keywords") String keyword);
+    @GET
+    Call<List<LaunchImg>> getLaunchImg(@Url String url);
 }

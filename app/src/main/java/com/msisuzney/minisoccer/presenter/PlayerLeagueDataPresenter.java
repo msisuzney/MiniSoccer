@@ -3,6 +3,7 @@ package com.msisuzney.minisoccer.presenter;
 import android.os.Bundle;
 
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
+import com.msisuzney.minisoccer.App;
 import com.msisuzney.minisoccer.DQDApi.model.PlayerLeagueData;
 import com.msisuzney.minisoccer.utils.MyRetrofit;
 import com.msisuzney.minisoccer.view.PlayerLeagueDataView;
@@ -21,7 +22,6 @@ import retrofit2.Response;
  */
 
 public class PlayerLeagueDataPresenter extends MvpBasePresenter<PlayerLeagueDataView> {
-    private MyRetrofit myRetrofit = MyRetrofit.getMyRetrofit();
 
     public void loadData(Bundle b) {
         String id;
@@ -29,7 +29,7 @@ public class PlayerLeagueDataPresenter extends MvpBasePresenter<PlayerLeagueData
             getView().showError(new Exception("请求参数错误"), false);
         } else {
             if (isViewAttached()) {
-                myRetrofit.getApiService().getPlayerLeagueData(id).enqueue(new Callback<List<PlayerLeagueData>>() {
+                App.getApp().getMyRetrofit().getApiService().getPlayerLeagueData(id).enqueue(new Callback<List<PlayerLeagueData>>() {
                     @Override
                     public void onResponse(Call<List<PlayerLeagueData>> call, Response<List<PlayerLeagueData>>
                             response) {
@@ -44,7 +44,9 @@ public class PlayerLeagueDataPresenter extends MvpBasePresenter<PlayerLeagueData
                     @Override
                     public void onFailure(Call<List<PlayerLeagueData>> call, Throwable t) {
                         if (isViewAttached()) {
-                            getView().showError(new Exception("请求参数错误"), false);
+                            if (isViewAttached()) {
+                                getView().showError(new Exception("网络请求错误\n请检查网络连接情况后\n点击重新加载"), false);
+                            }
                         }
                     }
                 });

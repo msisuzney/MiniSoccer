@@ -2,14 +2,12 @@ package com.msisuzney.minisoccer.presenter;
 
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
 import com.msisuzney.minisoccer.App;
-import com.msisuzney.minisoccer.DQDApi.APIService;
 import com.msisuzney.minisoccer.DQDApi.model.news.Article;
 import com.msisuzney.minisoccer.DQDApi.model.news.ArticleDao;
 import com.msisuzney.minisoccer.DQDApi.model.news.DaoSession;
 import com.msisuzney.minisoccer.DQDApi.model.news.News;
 import com.msisuzney.minisoccer.DQDApi.model.news.NextUrl;
 import com.msisuzney.minisoccer.DQDApi.model.news.NextUrlDao;
-import com.msisuzney.minisoccer.utils.MyRetrofit;
 import com.msisuzney.minisoccer.view.NewsView;
 
 import org.greenrobot.greendao.query.DeleteQuery;
@@ -42,8 +40,6 @@ public class NewsPresenter extends MvpBasePresenter<NewsView> {
     public static final int LOAD_FROM_DB = 0x02;
     public static final int LOAD_REFRESH = 0x03;
 
-    private APIService api = MyRetrofit.getMyRetrofit().getApiService();
-
     private String nextPageUrl;
 
 
@@ -63,12 +59,13 @@ public class NewsPresenter extends MvpBasePresenter<NewsView> {
 
     /**
      * 网络 请求数据
-     * @param newsId 联赛id
+     *
+     * @param newsId        联赛id
      * @param pullToRefresh pullToRefresh
      */
     private void loadDataFromNet(final int newsId, final boolean pullToRefresh) {
         String id = String.valueOf(newsId);
-        api.getNews(id).enqueue(new Callback<News>() {
+        App.getApp().getMyRetrofit().getApiService().getNews(id).enqueue(new Callback<News>() {
             @Override
             public void onResponse(Call<News> call, Response<News> response) {
                 if (isViewAttached()) {
@@ -104,11 +101,12 @@ public class NewsPresenter extends MvpBasePresenter<NewsView> {
 
     /**
      * 加载更多的数据，当recyclerView滑动到最后一个子元素时调用
+     *
      * @param nextPageUrl nextPageUrl
-     * @param newsId newsId
+     * @param newsId      newsId
      */
     private void loadMoreDataFromNet(String nextPageUrl, final int newsId) {
-        api.getMoreNews(nextPageUrl).enqueue(new Callback<News>() {
+        App.getApp().getMyRetrofit().getApiService().getMoreNews(nextPageUrl).enqueue(new Callback<News>() {
             @Override
             public void onResponse(Call<News> call, Response<News> response) {
                 if (isViewAttached()) {
@@ -141,12 +139,14 @@ public class NewsPresenter extends MvpBasePresenter<NewsView> {
 
     /**
      * 从数据库加载数据，如果没有数据就网络加载
+     *
      * @param newsId
      */
     private void loadDataFromDB(int newsId) {
         List<Article> list = queryDataFromDB(newsId);
         if (list.size() <= 0) {
-            loadData(newsId, LOAD_REFRESH);
+            //第一次加载新闻
+            loadDataFromNet(newsId, false);
         } else {
             if (isViewAttached()) {
                 getView().setData(list);
@@ -178,7 +178,7 @@ public class NewsPresenter extends MvpBasePresenter<NewsView> {
 
     }
 
-    public void updateArticleIsViewed(Article article){
+    public void updateArticleIsViewed(Article article) {
         DaoSession daoSession = App.getApp().getDaoSession();
         ArticleDao dao = daoSession.getArticleDao();
         List<Article> mArticles = dao.queryBuilder().where(ArticleDao.Properties.Id.eq(article.getId())).list();

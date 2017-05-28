@@ -1,6 +1,7 @@
 package com.msisuzney.minisoccer.presenter;
 
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
+import com.msisuzney.minisoccer.App;
 import com.msisuzney.minisoccer.DQDApi.model.leagueRanking.LeagueRanking;
 import com.msisuzney.minisoccer.utils.MyRetrofit;
 import com.msisuzney.minisoccer.view.TeamRankingsView;
@@ -16,11 +17,9 @@ import retrofit2.Response;
  */
 public class TeamRankingPresenter extends MvpBasePresenter<TeamRankingsView> {
 
-    private MyRetrofit myRetrofit = MyRetrofit.getMyRetrofit();
-
     public void loadData(int id, final boolean pullToRefresh) {
         String idStr = String.valueOf(id);
-        myRetrofit.getApiService().getLeagueRanking(idStr).enqueue(new Callback<LeagueRanking>() {
+        App.getApp().getMyRetrofit().getApiService().getLeagueRanking(idStr).enqueue(new Callback<LeagueRanking>() {
             @Override
             public void onResponse(Call<LeagueRanking> call, Response<LeagueRanking> response) {
                 if (isViewAttached()) {

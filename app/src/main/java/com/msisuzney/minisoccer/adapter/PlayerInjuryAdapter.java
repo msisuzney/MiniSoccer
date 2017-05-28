@@ -44,7 +44,7 @@ public class PlayerInjuryAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (size() == 0) {
+        if (size() == 0) { //size() == 0 的时候有一个itemView，显示没有数据
             PlayerInjuryAdapter.NoDataViewHolder viewHolder = (PlayerInjuryAdapter.NoDataViewHolder) holder;
             viewHolder.noData.setText("没有伤病数据");
         } else {

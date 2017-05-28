@@ -33,13 +33,13 @@ public class ScheduleRVAdapter extends RecyclerView.Adapter<ScheduleRVAdapter.Sc
         this.matches = new ArrayList<>();
     }
 
-    public void setData(Schedule scheduleData){
+    public void setData(Schedule scheduleData) {
         this.matches = scheduleData.getContent().getMatches();
     }
-    
+
     @Override
     public ScheduleItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ScheduleItemViewHolder(LayoutInflater.from(mCon).inflate(R.layout.rv_item_schedule,parent,false));
+        return new ScheduleItemViewHolder(LayoutInflater.from(mCon).inflate(R.layout.rv_item_schedule, parent, false));
     }
 
     @Override
@@ -47,14 +47,14 @@ public class ScheduleRVAdapter extends RecyclerView.Adapter<ScheduleRVAdapter.Sc
         holder.item_schedule_home.setText(matches.get(i).getTeam_A_name());
         holder.item_schedule_visit.setText(matches.get(i).getTeam_B_name());
         holder.item_schedule_time.setText(matches.get(i).getStart_play());
-        if(matches.get(i).getStatus().equals( "Played")) {
+        if (matches.get(i).getStatus().equals("Played")) {
             String ss = matches.get(i).getFs_A() + ":" + matches.get(i).getFs_B();
             holder.item_schedule_score.setText(ss);
-        }else {
+        } else {
             holder.item_schedule_score.setText("VS");
         }
-        Glide.with(mCon).load(matches.get(i).getTeam_A_logo()).into(holder.item_schedule_home_img);
-        Glide.with(mCon).load(matches.get(i).getTeam_B_logo()).into(holder.item_schedule_visit_img);
+        Glide.with(mCon).load(matches.get(i).getTeam_A_logo()).error(R.drawable.ic_person_black_24dp).into(holder.item_schedule_home_img);
+        Glide.with(mCon).load(matches.get(i).getTeam_B_logo()).error(R.drawable.ic_person_black_24dp).into(holder.item_schedule_visit_img);
     }
 
     @Override

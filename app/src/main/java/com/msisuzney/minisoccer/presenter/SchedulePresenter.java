@@ -1,6 +1,7 @@
 package com.msisuzney.minisoccer.presenter;
 
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
+import com.msisuzney.minisoccer.App;
 import com.msisuzney.minisoccer.DQDApi.APIService;
 import com.msisuzney.minisoccer.DQDApi.model.Schedule.Match;
 import com.msisuzney.minisoccer.DQDApi.model.Schedule.Round;
@@ -23,27 +24,28 @@ import retrofit2.Response;
 
 public class SchedulePresenter extends MvpBasePresenter<ScheduleView> {
     List<Round> rounds;
-    private APIService api = MyRetrofit.getMyRetrofit().getApiService();
     private int currentRound = -1;
 
     public void loadData(int id, final boolean pullToRefresh) {
-        api.getLeagueSchedule(String.valueOf(id)).enqueue(new Callback<Schedule>() {
+        App.getApp().getMyRetrofit().getApiService().getLeagueSchedule(String.valueOf(id)).enqueue(new Callback<Schedule>() {
             @Override
             public void onResponse(Call<Schedule> call, Response<Schedule> response) {
                 if (isViewAttached()) {
                     try {
                         Schedule schedule = response.body();
                         rounds = schedule.getContent().getRounds();
+                        //得到当前轮次
                         for (int i = 0; i < rounds.size(); i++) {
                             if (rounds.get(i).getCurrent() != null) {
                                 currentRound = i;
                             }
                         }
-                        List<Match> matches  = schedule.getContent().getMatches();
+                        List<Match> matches = schedule.getContent().getMatches();
+                        //将开赛时间转换成北京时间
                         for (int i = 0; i < matches.size(); i++) {
                             matches.get(i).setStart_play(DateTransfer.transfer(matches.get(i).getStart_play()));
                         }
-                        getView().setData2(schedule, currentRound+1);
+                        getView().setData2(schedule, currentRound + 1);
                         getView().showContent();
                     } catch (Exception e) {
                         if (isViewAttached())
@@ -62,11 +64,15 @@ public class SchedulePresenter extends MvpBasePresenter<ScheduleView> {
             }
         });
     }
-    //    private void showToast
 
-    public void loadData2(boolean isPrevious) {
+    /**
+     * 加载其他轮次
+     *
+     * @param isPrevious 是否是加载前一轮，否则后一轮
+     */
+    public void loadData2(final boolean isPrevious) {
         String url = "";
-        if (isPrevious) {
+        if (isPrevious) {//加载上一轮
             if (--currentRound < 0) {
                 currentRound++;//保证是第一轮，防止用户多次点击
                 if (isViewAttached()) {
@@ -77,7 +83,7 @@ public class SchedulePresenter extends MvpBasePresenter<ScheduleView> {
             } else {
                 url = rounds.get(currentRound).getUrl();
             }
-        } else {//next
+        } else {//加载下一轮
             if (++currentRound == rounds.size()) {
                 currentRound--;//保证是最后一轮，防止用户多次点击
                 if (isViewAttached()) {
@@ -89,17 +95,22 @@ public class SchedulePresenter extends MvpBasePresenter<ScheduleView> {
                 url = rounds.get(currentRound).getUrl();
             }
         }
-        api.getLeagueSchedule2(url).enqueue(new Callback<Schedule>() {
+        App.getApp().getMyRetrofit().getApiService().getLeagueSchedule2(url).enqueue(new Callback<Schedule>() {
             @Override
             public void onResponse(Call<Schedule> call, Response<Schedule> response) {
                 if (isViewAttached()) {
                     try {
                         Schedule schedule = response.body();
-                        getView().setData2(schedule, currentRound+1);
+
+                        //将开赛时间转换成北京时间
+                        List<Match> matches = schedule.getContent().getMatches();
+                        for (int i = 0; i < matches.size(); i++) {
+                            matches.get(i).setStart_play(DateTransfer.transfer(matches.get(i).getStart_play()));
+                        }
+                        getView().setData2(schedule, currentRound + 1);
                         getView().showContent();
                     } catch (Exception e) {
-                        if (isViewAttached())
-                            getView().showError(new Exception("数据解析错误"), false);
+                        getView().showError(new Exception("数据解析错误"), true);
                     }
                 }
             }
@@ -107,9 +118,13 @@ public class SchedulePresenter extends MvpBasePresenter<ScheduleView> {
             @Override
             public void onFailure(Call<Schedule> call, Throwable t) {
                 if (isViewAttached()) {
-                    if (isViewAttached()) {
-                        getView().showError(new Exception("网络请求错误\n请检查网络连接情况后\n点击重新加载"), false);
+                    //网络出错时，请求失败还原为当前轮次
+                    if (isPrevious) {
+                        currentRound++;
+                    } else {
+                        currentRound--;
                     }
+                    getView().showError(new Exception("网络请求错误\n请检查网络连接情况后\n点击重新加载"), true);
                 }
             }
         });

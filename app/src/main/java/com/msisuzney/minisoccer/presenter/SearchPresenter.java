@@ -3,6 +3,7 @@ package com.msisuzney.minisoccer.presenter;
 import android.util.Log;
 
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
+import com.msisuzney.minisoccer.App;
 import com.msisuzney.minisoccer.DQDApi.model.search.Search;
 import com.msisuzney.minisoccer.utils.MyRetrofit;
 import com.msisuzney.minisoccer.view.SearchView;
@@ -19,13 +20,12 @@ import retrofit2.Response;
 
 public class SearchPresenter extends MvpBasePresenter<SearchView> {
 
-    private MyRetrofit myRetrofit = MyRetrofit.getMyRetrofit();
     private int page = 0;
 
     public void loadData(String keyword, final boolean pullToRefresh) {
         page = 0;
         String pageStr = String.valueOf(++page);
-        myRetrofit.getApiService().getSearchResult(pageStr, keyword).enqueue(new Callback<Search>() {
+        App.getApp().getMyRetrofit().getApiService().getSearchResult(pageStr, keyword).enqueue(new Callback<Search>() {
             @Override
             public void onResponse(Call<Search> call, Response<Search> response) {
                 if (isViewAttached()) {
@@ -50,7 +50,7 @@ public class SearchPresenter extends MvpBasePresenter<SearchView> {
     public void loadMoreNews(String keyword) {
         Log.d("SearchPresenter", "loadMoreNews");
         String pageStr = String.valueOf(++page);
-        myRetrofit.getApiService().getSearchResult(pageStr, keyword).enqueue(new Callback<Search>() {
+        App.getApp().getMyRetrofit().getApiService().getSearchResult(pageStr, keyword).enqueue(new Callback<Search>() {
             @Override
             public void onResponse(Call<Search> call, Response<Search> response) {
                 if (isViewAttached()) {

@@ -63,7 +63,6 @@ public class SearchActivity extends MvpLceActivity<RecyclerView, Search, SearchV
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    keywords = getSearchString();
                     loadData();
                     imm.hideSoftInputFromWindow(SearchActivity.this.getCurrentFocus().getWindowToken(),
                             InputMethodManager.HIDE_NOT_ALWAYS);
@@ -126,6 +125,7 @@ public class SearchActivity extends MvpLceActivity<RecyclerView, Search, SearchV
     }
 
     private void loadData() {
+        keywords = getSearchString();
         if (keywords == null || keywords.length() == 0) {
             Toast.makeText(this, "没有输入内容", Toast.LENGTH_SHORT).show();
         } else {

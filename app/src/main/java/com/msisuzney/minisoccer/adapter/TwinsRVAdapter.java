@@ -15,7 +15,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.msisuzney.minisoccer.DQDApi.model.twins.Feedlist;
 import com.msisuzney.minisoccer.R;
+import com.msisuzney.minisoccer.utils.DateTransfer;
 
+import org.w3c.dom.Text;
+
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,9 +32,9 @@ import java.util.List;
 public class TwinsRVAdapter extends RecyclerView.Adapter<TwinsRVAdapter.MyViewHolder> {
 
 
+    OnClickListener listener;
     private List<Feedlist> list;
     private int picWidthPx;
-
     private Context context;
 
     public TwinsRVAdapter(Context context) {
@@ -39,8 +43,12 @@ public class TwinsRVAdapter extends RecyclerView.Adapter<TwinsRVAdapter.MyViewHo
         WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics metrics = new DisplayMetrics();
         windowManager.getDefaultDisplay().getMetrics(metrics);
-        int margin = (int) (30* (metrics.densityDpi*1.0 / 160)); // 30dp
-        picWidthPx = metrics.widthPixels - margin;
+        int margin = (int) (30 * (metrics.densityDpi * 1.0 / 160)); // 30dp
+        picWidthPx = metrics.widthPixels - margin; //所有显示图片的宽度等于手机屏幕的宽度 - 30dp
+    }
+
+    public void setListener(OnClickListener listener) {
+        this.listener = listener;
     }
 
     public void setData(List<Feedlist> list) {
@@ -58,35 +66,49 @@ public class TwinsRVAdapter extends RecyclerView.Adapter<TwinsRVAdapter.MyViewHo
     }
 
     @Override
-    public void onBindViewHolder(TwinsRVAdapter.MyViewHolder holder, int position) {
-        int pos = holder.getAdapterPosition();
-        Glide.with(context).load(list.get(pos).getAvatar()).error(R.drawable.ic_insert_emoticon_black_24dp).into
+    public void onBindViewHolder(final TwinsRVAdapter.MyViewHolder holder, int position) {
+        final int pos = holder.getAdapterPosition();
+        Glide.with(context).load(list.get(pos).getAvatar()).error(R.drawable.ic_person_black_24dp).into
                 (holder.icon);
 
         if (list.get(pos).getPic_url() != null) {
             holder.contentPic.setVisibility(View.VISIBLE);
-            int picHeightPx = (int) ((list.get(pos).getPic_height() / (list.get(pos).getPic_width()*1.0)) * picWidthPx);
+            //根据图片本身的宽高以及显示的宽度，确定显示的高度
+            int picHeightPx = (int) ((list.get(pos).getPic_height() / (list.get(pos).getPic_width() * 1.0)) * picWidthPx);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(picWidthPx, picHeightPx);
-//            params.setMargins(20,0,20,0);
+            Glide.with(context).load(list.get(pos).getPic_url()).into(holder.contentPic);
             params.gravity = Gravity.CENTER_HORIZONTAL;
             holder.contentPic.setLayoutParams(params);
-            Glide.with(context).load(list.get(pos).getPic_url()).into(holder.contentPic);
+            holder.contentPic.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onImageClick(list.get(pos).getPic_url(), holder.contentPic);
+                }
+            });
+
         } else {
             holder.contentPic.setVisibility(View.GONE);
         }
 
-        if(list.get(pos).getOriginal_text() == null){
+        if (list.get(pos).getOriginal_text() == null) {
             holder.contentRaw.setVisibility(View.GONE);
-        }else {
+        } else {
             holder.contentRaw.setVisibility(View.VISIBLE);
             holder.contentRaw.setText(list.get(pos).getOriginal_text());
         }
 
-        if(list.get(pos).getTranslation_text() == null){
+        if (list.get(pos).getTranslation_text() == null) {
             holder.contentZh.setVisibility(View.GONE);
-        }else {
+        } else {
             holder.contentZh.setVisibility(View.VISIBLE);
             holder.contentZh.setText(list.get(pos).getTranslation_text());
+        }
+        String ago;
+        try {
+            ago = DateTransfer.getHoursAgo(list.get(pos).getPublished_at()) + "小时前";
+            holder.published.setText(ago);
+        } catch (ParseException e) {
+            holder.published.setText("");
         }
         holder.nameRaw.setText(list.get(pos).getAccount());
         holder.nameZh.setText(list.get(pos).getNote());
@@ -98,6 +120,10 @@ public class TwinsRVAdapter extends RecyclerView.Adapter<TwinsRVAdapter.MyViewHo
         return list.size();
     }
 
+    public interface OnClickListener {
+        void onImageClick(String imgUrl, View transitionView);
+    }
+
     static class MyViewHolder extends RecyclerView.ViewHolder {
 
         ImageView icon;
@@ -107,6 +133,7 @@ public class TwinsRVAdapter extends RecyclerView.Adapter<TwinsRVAdapter.MyViewHo
         TextView contentRaw;
         ImageView contentPic;
         ImageView type;
+        TextView published;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -117,6 +144,7 @@ public class TwinsRVAdapter extends RecyclerView.Adapter<TwinsRVAdapter.MyViewHo
             contentRaw = (TextView) itemView.findViewById(R.id.contentRaw);
             contentPic = (ImageView) itemView.findViewById(R.id.twinsPic);
             type = (ImageView) itemView.findViewById(R.id.type);
+            published = (TextView) itemView.findViewById(R.id.published);
         }
     }
 }

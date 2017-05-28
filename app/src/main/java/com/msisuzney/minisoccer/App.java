@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.msisuzney.minisoccer.DQDApi.model.news.DaoMaster;
 import com.msisuzney.minisoccer.DQDApi.model.news.DaoSession;
+import com.msisuzney.minisoccer.utils.MyRetrofit;
 
 import org.greenrobot.greendao.database.Database;
 
@@ -16,7 +17,7 @@ import org.greenrobot.greendao.database.Database;
 public class App extends Application{
     private DaoSession daoSession;
     private static App app;
-
+    private MyRetrofit myRetrofit = MyRetrofit.getMyRetrofit();
     @Override
     public void onCreate() {
         super.onCreate();
@@ -30,5 +31,8 @@ public class App extends Application{
     }
     public DaoSession getDaoSession(){
         return daoSession;
+    }
+    public MyRetrofit getMyRetrofit(){
+        return myRetrofit;
     }
 }

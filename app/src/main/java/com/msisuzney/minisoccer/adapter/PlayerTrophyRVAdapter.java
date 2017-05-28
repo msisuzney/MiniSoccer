@@ -3,11 +3,9 @@ package com.msisuzney.minisoccer.adapter;
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.msisuzney.minisoccer.DQDApi.model.PlayerDetail;
@@ -86,10 +84,7 @@ public class PlayerTrophyRVAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             item_trophy_type = (TextView) itemView.findViewById(R.id.item_trophy_type);
             item_trophy_count = (TextView) itemView.findViewById(R.id.item_trophy_count);
             rv = (RecyclerView) itemView.findViewById(R.id.container);
-            WindowManager wm = (WindowManager) mCon.getSystemService(Context.WINDOW_SERVICE);
-            DisplayMetrics metrics = new DisplayMetrics();
-            wm.getDefaultDisplay().getMetrics(metrics);
-            int count = metrics.widthPixels / 160; //每个item宽160px
+            int count = 4;
             rv.setLayoutManager(new GridLayoutManager(mCon, count));
             rv.setNestedScrollingEnabled(false);
         }

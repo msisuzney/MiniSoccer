@@ -1,7 +1,9 @@
 package com.msisuzney.minisoccer.view.activities;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -45,9 +47,9 @@ public class TwinsActivity extends MvpLceActivity<SwipeRefreshLayout, List<Feedl
         if (intent == null || (kind = intent.getStringExtra(TwinsPresenter.KIND)) == null) {
             showError(new Exception("请求数据错误"), false);
         } else {
-            if(kind.equals(TwinsPresenter.TWINS_KIND)){
+            if (kind.equals(TwinsPresenter.TWINS_KIND)) {
                 toolbar.setTitle("Twins");
-            }else {
+            } else {
                 toolbar.setTitle("怡人");
             }
         }
@@ -64,6 +66,18 @@ public class TwinsActivity extends MvpLceActivity<SwipeRefreshLayout, List<Feedl
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         adapter = new TwinsRVAdapter(this);
+        adapter.setListener(new TwinsRVAdapter.OnClickListener() {
+            @Override
+            public void onImageClick(String imgUrl, View twinsPic) {
+                Intent intent = new Intent(TwinsActivity.this, ImageActivity.class);
+                intent.putExtra(ImageActivity.img_url, imgUrl);
+                if (Build.VERSION.SDK_INT >= 21) {
+                    startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(TwinsActivity.this, twinsPic, "sharedImgView").toBundle());
+                } else {
+                    startActivity(intent);
+                }
+            }
+        });
         recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

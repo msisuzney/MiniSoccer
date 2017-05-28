@@ -21,8 +21,19 @@ public class DateTransfer {
     private static final SimpleDateFormat format_Y = new SimpleDateFormat("yyyy");
     private static final SimpleDateFormat format_M = new SimpleDateFormat("MM");
     private static final SimpleDateFormat format_D = new SimpleDateFormat("dd");
-    private static final Date now = new Date();
+    private static final SimpleDateFormat format_H = new SimpleDateFormat("HH");
+    private static final SimpleDateFormat format_m = new SimpleDateFormat("mm");
     private static final SimpleDateFormat birthdayDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    private static Date now = new Date();
+
+    private static String this_Year = format_Y.format(now);
+    private static String this_M = format_M.format(now);
+    private static String this_D = format_D.format(now);
+    private static String this_H = format_H.format(now);
+    private static String this_m = format_m.format(now);
+    private static int nowDay = Integer.valueOf(this_D);
+    private static int nowHour = Integer.valueOf(this_H);
+
     /**
      * 将标准时间转换成北京时间，yyyy-MM-dd HH:mm:ss
      *
@@ -38,6 +49,7 @@ public class DateTransfer {
 
     /**
      * 将出生日期转换成年龄
+     *
      * @param birthday 出生日期
      * @return 年龄
      * @throws ParseException
@@ -47,13 +59,8 @@ public class DateTransfer {
         Date birthdayDate = birthdayDateFormat.parse(birthday);
 
         String birth_Y = format_Y.format(birthdayDate);
-        String this_Year = format_Y.format(now);
-
         String birth_M = format_M.format(birthdayDate);
-        String this_M = format_M.format(now);
-
         String birth_D = format_D.format(birthdayDate);
-        String this_D = format_D.format(now);
 
         age = Integer.valueOf(this_Year) - Integer.valueOf(birth_Y);
         if (this_M.compareTo(birth_M) <= 0 && this_D.compareTo(birth_D) < 0) {
@@ -64,5 +71,19 @@ public class DateTransfer {
         }
         return age;
 
+    }
+
+    /**
+     * 计算同一个月中
+     *
+     * @param date
+     * @throws ParseException
+     */
+    public static int getHoursAgo(String date) throws ParseException {
+        Date publishDate = formatter.parse(date);
+        int publishDay = Integer.valueOf(format_D.format(publishDate));
+        int publishHour = Integer.valueOf(format_H.format(publishDate));
+
+        return (nowDay - publishDay) * 24 + nowHour - publishHour;
     }
 }

@@ -56,10 +56,19 @@ public class PlayerLeagueDataFragment extends MvpLceFragment<RecyclerView, List<
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
         rv.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new PlayerLeagueDataAdapter(getActivity());
+//        rv.setAdapter(adapter);在这里setAdapter存在两种情况，1）的确没有数据的情况，那么就复用位置为0的NoDataViewHolder
+        // 2)如果有数据，那么就全部是MyViewHolder,第一个NoDataViewHolder就会被复用发生ClassCastException
+        //所以不在这里setAdapter
+        errorView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadData(getArguments());
+            }
+        });
         loadData(getArguments());
     }
 
@@ -78,17 +87,16 @@ public class PlayerLeagueDataFragment extends MvpLceFragment<RecyclerView, List<
     }
 
     private void loadData(Bundle b) {
+        showLoading(false);
         presenter.loadData(b);
     }
 
     @Override
     public void setData(List<PlayerLeagueData> data) {
-        if(rv.getAdapter() == null){
-            adapter.setData(data);
+        if (rv.getAdapter() == null) {
             rv.setAdapter(adapter);
-        }else {
-            adapter.setData(data);
-            adapter.notifyDataSetChanged();
         }
+        adapter.setData(data);
+        adapter.notifyDataSetChanged();
     }
 }

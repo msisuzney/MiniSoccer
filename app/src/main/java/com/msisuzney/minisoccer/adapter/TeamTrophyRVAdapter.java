@@ -67,7 +67,7 @@ public class TeamTrophyRVAdapter extends RecyclerView.Adapter<TeamTrophyRVAdapte
             WindowManager wm = (WindowManager) mCon.getSystemService(Context.WINDOW_SERVICE);
             DisplayMetrics metrics = new DisplayMetrics();
             wm.getDefaultDisplay().getMetrics(metrics);
-            int count = metrics.widthPixels / 160; //每个item宽160px，不论在什么设备上都是宽160px,count为每排奖杯的数量
+            int count = 4 ;//每排奖杯的数量
             rv.setLayoutManager(new GridLayoutManager(mCon, count));
             rv.setNestedScrollingEnabled(false);
         }

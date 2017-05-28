@@ -51,15 +51,7 @@ public class ScheduleFragment extends MvpLceFragment<SwipeRefreshLayout, Schedul
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("test", "ScheduleFragment onCreate");
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d("test", "ScheduleFragment onDestroy");
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -167,7 +159,7 @@ public class ScheduleFragment extends MvpLceFragment<SwipeRefreshLayout, Schedul
      * @param isPrevious 是否是点击的 上一轮按钮
      */
     private void loadData2(boolean isPrevious) {
-        showLoading(false);
+        showLoading(true);
         presenter.loadData2(isPrevious);
     }
 
@@ -175,4 +167,5 @@ public class ScheduleFragment extends MvpLceFragment<SwipeRefreshLayout, Schedul
     public void onRefresh() {
         loadData(bottomBarPosition, true);
     }
+
 }

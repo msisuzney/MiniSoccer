@@ -3,6 +3,7 @@ package com.msisuzney.minisoccer.presenter;
 import android.content.Intent;
 
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
+import com.msisuzney.minisoccer.App;
 import com.msisuzney.minisoccer.DQDApi.model.coach.Coach;
 import com.msisuzney.minisoccer.utils.MyRetrofit;
 import com.msisuzney.minisoccer.view.CoachDetailView;
@@ -19,14 +20,12 @@ import retrofit2.Response;
  */
 
 public class CoachDetailPresenter extends MvpBasePresenter<CoachDetailView> {
-    MyRetrofit myRetrofit = MyRetrofit.getMyRetrofit();
-
     public void ladData(Intent intent) {
         String id = "";
         if (intent == null || (id = intent.getStringExtra(CoachDetailActivity.ID)) == null || id.equals("")) {
             getView().showError(new Exception("请求参数错误"), false);
         } else {
-            myRetrofit.getApiService().getCoachDetail(id).enqueue(new Callback<Coach>() {
+            App.getApp().getMyRetrofit().getApiService().getCoachDetail(id).enqueue(new Callback<Coach>() {
                 @Override
                 public void onResponse(Call<Coach> call, Response<Coach> response) {
                     try {

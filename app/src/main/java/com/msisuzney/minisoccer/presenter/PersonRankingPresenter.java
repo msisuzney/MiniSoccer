@@ -1,9 +1,8 @@
 package com.msisuzney.minisoccer.presenter;
 
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
-import com.msisuzney.minisoccer.DQDApi.APIService;
+import com.msisuzney.minisoccer.App;
 import com.msisuzney.minisoccer.DQDApi.model.PersonRanking;
-import com.msisuzney.minisoccer.utils.MyRetrofit;
 import com.msisuzney.minisoccer.view.PersonRankingView;
 
 import retrofit2.Call;
@@ -17,10 +16,9 @@ import retrofit2.Response;
  */
 
 public class PersonRankingPresenter extends MvpBasePresenter<PersonRankingView> {
-    private APIService api = MyRetrofit.getMyRetrofit().getApiService();
-    public void loadData(String type,int leagueId, final boolean pullToRefresh) {
+    public void loadData(String type, int leagueId, final boolean pullToRefresh) {
         String id = String.valueOf(leagueId);
-        api.getPersonRanking(id,type).enqueue(new Callback<PersonRanking>() {
+        App.getApp().getMyRetrofit().getApiService().getPersonRanking(id, type).enqueue(new Callback<PersonRanking>() {
             @Override
             public void onResponse(Call<PersonRanking> call, Response<PersonRanking> response) {
                 if (isViewAttached()) {

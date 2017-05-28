@@ -33,7 +33,6 @@ public class SpecialNewsColumnPresenter extends MvpBasePresenter<SpecialNewsColu
     public static final int LOAD_MORE = 2;
     int currentPage = 1;
     int lastPage;
-    private MyRetrofit myRetrofit = MyRetrofit.getMyRetrofit();
 
     public void loadData(int mode, String id) {
         if (mode == LOAD_REFRESH) {
@@ -56,7 +55,7 @@ public class SpecialNewsColumnPresenter extends MvpBasePresenter<SpecialNewsColu
                 getView().showError(new Exception("已是最后一页"), true);
             return;
         }
-        myRetrofit.getApiService().getSpecialColumns(id, String.valueOf(currentPage)).enqueue(new Callback<SpecialNewsColumn>() {
+        App.getApp().getMyRetrofit().getApiService().getSpecialColumns(id, String.valueOf(currentPage)).enqueue(new Callback<SpecialNewsColumn>() {
             @Override
             public void onResponse(Call<SpecialNewsColumn> call, Response<SpecialNewsColumn> response) {
                 if (isViewAttached()) {
@@ -112,7 +111,7 @@ public class SpecialNewsColumnPresenter extends MvpBasePresenter<SpecialNewsColu
 
     private void loadDataFromNet(final String id, final boolean pullToRefresh) {
         currentPage = 1;
-        myRetrofit.getApiService().getSpecialColumns(id, String.valueOf(currentPage)).enqueue(new Callback<SpecialNewsColumn>() {
+        App.getApp().getMyRetrofit().getApiService().getSpecialColumns(id, String.valueOf(currentPage)).enqueue(new Callback<SpecialNewsColumn>() {
 
             @Override
             public void onResponse(Call<SpecialNewsColumn> call, Response<SpecialNewsColumn> response) {

@@ -48,7 +48,6 @@ public class TeamRankingsFragment extends MvpLceFragment<SwipeRefreshLayout, Lea
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("test", "TeamRankingsFragment onCreate");
     }
 
     @Override

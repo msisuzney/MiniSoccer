@@ -83,23 +83,21 @@ public class PersonRankingRVAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 }
             });
             viewHolder.item_rank.setText(String.valueOf(listPos + 1));
-            Glide.with(mCon).load(persons.get(listPos).getPerson_logo()).into(viewHolder.item_rank_img);
+            Glide.with(mCon).load(persons.get(listPos).getPerson_logo()).error(R.drawable.ic_person_black_24dp).into(viewHolder.item_rank_img);
             viewHolder.item_name.setText(persons.get(listPos).getPerson_name());
             viewHolder.item_team.setText(persons.get(listPos).getTeam_name());
             viewHolder.item_count.setText(persons.get(listPos).getCount());
         } else if (holder instanceof HeaderViewHolder) {
             HeaderViewHolder viewHolder = (HeaderViewHolder) holder;
-            if (mRanking != null) { //onCreatedView初始化的时候mRanking为空
-                viewHolder.header_text_1.setText(mRanking.getContent().getHeader().get(0));
-                viewHolder.header_text_2.setText(mRanking.getContent().getHeader().get(1));
-                viewHolder.header_text_3.setText(mRanking.getContent().getHeader().get(2));
-            }
+            viewHolder.header_text_1.setText(mRanking.getContent().getHeader().get(0));
+            viewHolder.header_text_2.setText(mRanking.getContent().getHeader().get(1));
+            viewHolder.header_text_3.setText(mRanking.getContent().getHeader().get(2));
         }
     }
 
     @Override
     public int getItemCount() {
-        return persons.size() + 1;
+        return persons.size() == 0 ? 0 : persons.size() + 1;
     }
 
     public interface OnItemClickListener {

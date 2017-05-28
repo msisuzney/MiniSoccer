@@ -3,6 +3,7 @@ package com.msisuzney.minisoccer.presenter;
 import android.os.Bundle;
 
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
+import com.msisuzney.minisoccer.App;
 import com.msisuzney.minisoccer.DQDApi.model.PlayerDetail;
 import com.msisuzney.minisoccer.utils.MyRetrofit;
 import com.msisuzney.minisoccer.view.PlayerBasicInfoView;
@@ -19,15 +20,12 @@ import retrofit2.Response;
  */
 
 public class PlayerBasicInfoPresenter extends MvpBasePresenter<PlayerBasicInfoView> {
-
-    private MyRetrofit myRetrofit = MyRetrofit.getMyRetrofit();
-
     public void loadData(Bundle bundle) {
         String id = "";
         if (bundle == null || (id = bundle.getString(PlayerBasicInfoFragment.ID)) == null || id.equals("")) {
             getView().showError(new Exception("请求数据错误"), false);
         } else {
-            myRetrofit.getApiService().getPlayerDetail(id).enqueue(new Callback<PlayerDetail>() {
+            App.getApp().getMyRetrofit().getApiService().getPlayerDetail(id).enqueue(new Callback<PlayerDetail>() {
                 @Override
                 public void onResponse(Call<PlayerDetail> call, Response<PlayerDetail> response) {
                     try {

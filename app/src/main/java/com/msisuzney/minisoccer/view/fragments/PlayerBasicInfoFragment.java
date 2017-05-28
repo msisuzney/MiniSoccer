@@ -13,19 +13,13 @@ import android.widget.LinearLayout;
 
 import com.hannesdorfmann.mosby3.mvp.lce.MvpLceFragment;
 import com.msisuzney.minisoccer.DQDApi.model.PlayerDetail;
-import com.msisuzney.minisoccer.DQDApi.model.TeamDetail;
 import com.msisuzney.minisoccer.R;
 import com.msisuzney.minisoccer.adapter.PlayerInjuryAdapter;
 import com.msisuzney.minisoccer.adapter.PlayerTransferAdapter;
-import com.msisuzney.minisoccer.adapter.PlayerTrophyItemRVAdapter;
 import com.msisuzney.minisoccer.adapter.PlayerTrophyRVAdapter;
-import com.msisuzney.minisoccer.adapter.TeamTrophyRVAdapter;
 import com.msisuzney.minisoccer.presenter.PlayerBasicInfoPresenter;
 import com.msisuzney.minisoccer.utils.DividerItemDecoration;
 import com.msisuzney.minisoccer.view.PlayerBasicInfoView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -90,6 +84,7 @@ public class PlayerBasicInfoFragment extends MvpLceFragment<LinearLayout, Player
     }
 
     private void loadData(Bundle arguments) {
+        showLoading(false);
         presenter.loadData(arguments);
     }
 
@@ -106,31 +101,25 @@ public class PlayerBasicInfoFragment extends MvpLceFragment<LinearLayout, Player
     @Override
     public void setData(PlayerDetail data) {
 
-        if(rv_trophy.getAdapter() == null){
-            trophyAdapter.setData(data.getTrophy_info());
+        if (rv_trophy.getAdapter() == null) {
             rv_trophy.setAdapter(trophyAdapter);
-        }else {
-            trophyAdapter.setData(data.getTrophy_info());
-            trophyAdapter.notifyDataSetChanged();
         }
+        trophyAdapter.setData(data.getTrophy_info());
+        trophyAdapter.notifyDataSetChanged();
 
         if (rv_transfer.getAdapter() == null) {
-            transferadapter.setInfo(data.getTransfer_info());
             rv_transfer.setAdapter(transferadapter);
-        } else {
-            transferadapter.setInfo(data.getTransfer_info());
-            transferadapter.notifyDataSetChanged();
         }
+        transferadapter.setInfo(data.getTransfer_info());
+        transferadapter.notifyDataSetChanged();
 
-        if (rv_injury.getAdapter() == null){
-            injuryAdapter.setData(data.getInjury_info());
+        if (rv_injury.getAdapter() == null) {
             rv_injury.setAdapter(injuryAdapter);
-        }else {
-            injuryAdapter.setData(data.getInjury_info());
-            injuryAdapter.notifyDataSetChanged();
         }
-
+        injuryAdapter.setData(data.getInjury_info());
+        injuryAdapter.notifyDataSetChanged();
     }
+
 
     @Override
     public void loadData(boolean pullToRefresh) {

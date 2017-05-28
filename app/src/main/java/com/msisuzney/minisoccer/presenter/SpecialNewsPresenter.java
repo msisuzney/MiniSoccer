@@ -26,7 +26,6 @@ public class SpecialNewsPresenter extends MvpBasePresenter<SpecialNewsView> {
     public static final int LOAD_FROM_DB = 0x02;
     public static final int LOAD_REFRESH = 0x03;
 
-    private MyRetrofit myRetrofit = MyRetrofit.getMyRetrofit();
 
 
     public void loadData(int mode) {
@@ -38,7 +37,7 @@ public class SpecialNewsPresenter extends MvpBasePresenter<SpecialNewsView> {
     }
 
     private void loadDataFromNet(final boolean pullToRefresh) {
-        myRetrofit.getApiService().getSpecial().enqueue(new Callback<SpecialNews>() {
+        App.getApp().getMyRetrofit().getApiService().getSpecial().enqueue(new Callback<SpecialNews>() {
             @Override
             public void onResponse(Call<SpecialNews> call, Response<SpecialNews> response) {
                 if (isViewAttached()) {
