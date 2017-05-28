@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             xmlns:android="http://schemas.android.com/apk/res/android">
-    <include layout="@layout/loading_view"/>
-    <include layout="@layout/error_view"/>
-    <android.support.v4.widget.SwipeRefreshLayout
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/loading_view" />
+
+    <include layout="@layout/error_view" />
+
+    <android.support.v7.widget.RecyclerView
         android:id="@+id/contentView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-    </android.support.v4.widget.SwipeRefreshLayout>
+        android:layout_height="match_parent" />
+
 
 </FrameLayout>

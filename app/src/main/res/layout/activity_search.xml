@@ -23,7 +23,7 @@
             android:maxLength="5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="输入足球相关关键字"
+            android:hint="足球关键字"
             android:textCursorDrawable="@drawable/text_cursor"
             android:textSize="16sp"
             app:met_baseColor="@android:color/white"

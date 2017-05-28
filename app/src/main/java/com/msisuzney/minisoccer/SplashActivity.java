@@ -8,13 +8,22 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
+import com.msisuzney.minisoccer.DQDApi.model.LaunchImg;
 import com.msisuzney.minisoccer.view.activities.MainActivity;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class SplashActivity extends AppCompatActivity {
 
+    private static final String URL = "http://dongqiudi.com/app/android/launch_images";
     @BindView(R.id.splash_iv)
     ImageView iv;
 
@@ -23,6 +32,28 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
+
+        App.getApp().getMyRetrofit().getApiService().getLaunchImg(URL).enqueue(new Callback<List<LaunchImg>>() {
+            @Override
+            public void onResponse(Call<List<LaunchImg>> call, Response<List<LaunchImg>> response) {
+                try {
+                    List<LaunchImg> launchImgs = response.body();
+                    if (launchImgs != null && launchImgs.size() > 0 && !launchImgs.get(0).getIs_ad()) {
+                        loadImgFromNet(launchImgs.get(0).getImage_url1());
+                    } else {
+                        loadImgFromLocal();
+                    }
+                } catch (Exception e) {
+                    loadImgFromLocal();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<LaunchImg>> call, Throwable t) {
+                loadImgFromLocal();
+            }
+        });
+
 //        getWindow().getDecorView().findViewById(R.id.splash_iv);
         iv.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
@@ -31,15 +62,25 @@ public class SplashActivity extends AppCompatActivity {
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
         iv.setVisibility(View.VISIBLE);
-        iv.setImageResource(R.drawable.winback);
+
+//        animateImage();
+    }
+
+    private void loadImgFromNet(String url) {
+        Glide.with(this).load(url).into(iv);
+        animateImage();
+    }
+
+    private void loadImgFromLocal() {
+        iv.setImageResource(R.drawable.lanuch);
         animateImage();
     }
 
     private void animateImage() {
-        ObjectAnimator x = ObjectAnimator.ofFloat(iv, "scaleX", 1f, 1.05f);
-        ObjectAnimator y = ObjectAnimator.ofFloat(iv, "scaleY", 1f, 1.05f);
+        ObjectAnimator x = ObjectAnimator.ofFloat(iv, "scaleX", 1f, 1f);
+        ObjectAnimator y = ObjectAnimator.ofFloat(iv, "scaleY", 1f, 1f);
         AnimatorSet set = new AnimatorSet();
-        set.setDuration(1600).play(x).with(y);
+        set.setDuration(3400).play(x).with(y);
         set.start();
         set.addListener(new Animator.AnimatorListener() {
             @Override

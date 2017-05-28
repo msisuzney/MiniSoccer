@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MiniSoccer</string>
+    <string name="app_name">迷你懂</string>
     <string name="di">第</string>
     <string name="lun">轮</string>
     <string name="toast1">已是最后一轮</string>
@@ -9,4 +9,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="about">
+        本应用只用于学习目的，数据全部来自懂球帝App\n获取足球资讯请下载懂不懂球都要用的懂球帝App\n\n\n下载地址:\n
+        http://android.myapp.com/myapp/detail.htm?apkName=com.dongqiudi.news \n\n\n
+        项目Github地址：\n
+        https://github.com/msisuzney/MiniSoccer
+    </string>
 </resources>

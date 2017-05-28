@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.msisuzney.minisoccer"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.msisuzney.minisoccer">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:name=".App"
@@ -16,41 +18,43 @@
             android:configChanges="screenSize|orientation"
             android:theme="@style/FullscreenTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".view.activities.MainActivity"
-            android:configChanges="orientation|screenSize">
-        </activity>
+            android:configChanges="orientation|screenSize"></activity>
         <activity
             android:name=".view.activities.NewsDetailActivity"
-            android:configChanges="screenSize|orientation">
-        </activity>
+            android:configChanges="screenSize|orientation"></activity>
         <activity
             android:name=".view.activities.TeamDetailActivity"
-            android:configChanges="screenSize|orientation">
-        </activity>
+            android:configChanges="screenSize|orientation"></activity>
         <activity
             android:name=".view.activities.PlayerDetailActivity"
-            android:configChanges="screenSize|orientation">
-        </activity>
+            android:configChanges="screenSize|orientation"></activity>
         <activity
             android:name=".view.activities.CoachDetailActivity"
-            android:configChanges="screenSize|orientation">
-        </activity>
-        <activity android:name=".view.activities.TwinsActivity">
-        </activity>
-        <activity android:name=".view.activities.SpecialNewsActivity">
-        </activity>
-        <activity android:name=".view.activities.SpecialNewsColumnActivity">
-        </activity>
-        <activity android:name=".view.activities.SearchActivity"
-            android:windowSoftInputMode="adjustResize"
-            >
-        </activity>
+            android:configChanges="screenSize|orientation"></activity>
+        <activity
+            android:name=".view.activities.TwinsActivity"
+            android:configChanges="orientation|screenSize"></activity>
+        <activity
+            android:name=".view.activities.SpecialNewsActivity"
+            android:configChanges="orientation|screenSize"></activity>
+        <activity
+            android:name=".view.activities.SpecialNewsColumnActivity"
+            android:configChanges="orientation|screenSize"></activity>
+        <activity
+            android:name=".view.activities.SearchActivity"
+            android:configChanges="orientation|screenSize"
+            android:windowSoftInputMode="adjustResize"></activity>
+        <activity
+            android:name=".view.activities.AboutActivity"
+            android:configChanges="orientation|screenSize"></activity>
+        <activity android:name=".view.activities.ImageActivity"></activity>
     </application>
 
 </manifest>

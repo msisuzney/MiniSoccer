@@ -23,15 +23,18 @@
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <ImageView
-                android:id="@+id/app_bar_img"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+            <FrameLayout
                 android:layout_gravity="end"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp">
+                <ImageView
+                    android:id="@+id/app_bar_img"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_gravity="center"
+                    />
 
-                />
+            </FrameLayout>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/team_detail_toolbar"

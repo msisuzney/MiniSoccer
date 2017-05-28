@@ -23,6 +23,7 @@
             app:civ_shadow_radius="0.8"/>
 
         <TextView
+
             android:id="@+id/nameRaw"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
@@ -40,10 +41,10 @@
             android:layout_height="15dp"
             android:layout_alignStart="@id/nameRaw"
             android:layout_marginTop="27dp"
-
             android:textSize="12sp"/>
 
         <ImageView
+            android:transitionName="sharedImgView"
             android:id="@+id/type"
             android:layout_width="14dp"
             android:layout_height="14dp"
@@ -51,6 +52,14 @@
             android:layout_marginTop="10dp"
             android:layout_toEndOf="@id/nameRaw"
             />
+        <TextView
+            android:id="@+id/published"
+            android:textSize="11sp"
+            android:layout_alignTop="@id/nameRaw"
+            android:layout_marginEnd="25dp"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </RelativeLayout>
 
     <TextView

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@android:color/background_dark"
+    android:layout_height="match_parent"
+    tools:context="com.msisuzney.minisoccer.view.activities.ImageActivity">
+
+
+    <com.msisuzney.minisoccer.utils.PinchImageView
+        android:transitionName="sharedImgView"
+        android:id="@+id/img"
+        android:background="@android:color/black"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/save_img"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="14sp"
+        android:text="保存图片"
+        android:textColor="@android:color/white"
+        android:background="@drawable/corner_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>
