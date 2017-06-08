@@ -72,13 +72,6 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
         tabLayout.setSelectedTabIndicatorColor(Color.WHITE);
         getPresenter().init();
 
-        WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-        DisplayMetrics metrics = new DisplayMetrics();
-        wm.getDefaultDisplay().getMetrics(metrics);
-        Log.d("metrics", metrics.widthPixels + "");
-        Log.d("metrics", metrics.densityDpi + "");
-        int count = metrics.widthPixels / 160;
-
     }
 
     private void init() {
