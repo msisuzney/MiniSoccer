@@ -8,7 +8,7 @@ import com.msisuzney.minisoccer.DQDApi.model.news.DaoSession;
 import com.msisuzney.minisoccer.DQDApi.model.specialNewsColumn.SpecialNewsColumn;
 import com.msisuzney.minisoccer.DQDApi.model.specialNewsColumn.SpecialNewsColumnArticle;
 import com.msisuzney.minisoccer.DQDApi.model.specialNewsColumn.SpecialNewsColumnArticleDao;
-import com.msisuzney.minisoccer.utils.MyRetrofit;
+import com.msisuzney.minisoccer.DQDApi.MyRetrofit;
 import com.msisuzney.minisoccer.view.SpecialNewsColumnView;
 
 import org.greenrobot.greendao.query.DeleteQuery;
@@ -55,7 +55,7 @@ public class SpecialNewsColumnPresenter extends MvpBasePresenter<SpecialNewsColu
                 getView().showError(new Exception("已是最后一页"), true);
             return;
         }
-        App.getApp().getMyRetrofit().getApiService().getSpecialColumns(id, String.valueOf(currentPage)).enqueue(new Callback<SpecialNewsColumn>() {
+        MyRetrofit.getMyRetrofit().getApiService().getSpecialColumns(id, String.valueOf(currentPage)).enqueue(new Callback<SpecialNewsColumn>() {
             @Override
             public void onResponse(Call<SpecialNewsColumn> call, Response<SpecialNewsColumn> response) {
                 if (isViewAttached()) {
@@ -111,7 +111,7 @@ public class SpecialNewsColumnPresenter extends MvpBasePresenter<SpecialNewsColu
 
     private void loadDataFromNet(final String id, final boolean pullToRefresh) {
         currentPage = 1;
-        App.getApp().getMyRetrofit().getApiService().getSpecialColumns(id, String.valueOf(currentPage)).enqueue(new Callback<SpecialNewsColumn>() {
+        MyRetrofit.getMyRetrofit().getApiService().getSpecialColumns(id, String.valueOf(currentPage)).enqueue(new Callback<SpecialNewsColumn>() {
 
             @Override
             public void onResponse(Call<SpecialNewsColumn> call, Response<SpecialNewsColumn> response) {

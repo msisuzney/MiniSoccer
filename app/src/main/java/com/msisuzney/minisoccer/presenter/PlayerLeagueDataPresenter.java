@@ -3,9 +3,8 @@ package com.msisuzney.minisoccer.presenter;
 import android.os.Bundle;
 
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
-import com.msisuzney.minisoccer.App;
 import com.msisuzney.minisoccer.DQDApi.model.PlayerLeagueData;
-import com.msisuzney.minisoccer.utils.MyRetrofit;
+import com.msisuzney.minisoccer.DQDApi.MyRetrofit;
 import com.msisuzney.minisoccer.view.PlayerLeagueDataView;
 import com.msisuzney.minisoccer.view.fragments.PlayerLeagueDataFragment;
 
@@ -29,7 +28,7 @@ public class PlayerLeagueDataPresenter extends MvpBasePresenter<PlayerLeagueData
             getView().showError(new Exception("请求参数错误"), false);
         } else {
             if (isViewAttached()) {
-                App.getApp().getMyRetrofit().getApiService().getPlayerLeagueData(id).enqueue(new Callback<List<PlayerLeagueData>>() {
+                MyRetrofit.getMyRetrofit().getApiService().getPlayerLeagueData(id).enqueue(new Callback<List<PlayerLeagueData>>() {
                     @Override
                     public void onResponse(Call<List<PlayerLeagueData>> call, Response<List<PlayerLeagueData>>
                             response) {

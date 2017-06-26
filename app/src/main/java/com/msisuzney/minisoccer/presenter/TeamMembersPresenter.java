@@ -3,13 +3,10 @@ package com.msisuzney.minisoccer.presenter;
 import android.os.Bundle;
 
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
-import com.msisuzney.minisoccer.App;
 import com.msisuzney.minisoccer.DQDApi.model.TeamMembers;
-import com.msisuzney.minisoccer.utils.MyRetrofit;
+import com.msisuzney.minisoccer.DQDApi.MyRetrofit;
 import com.msisuzney.minisoccer.view.TeamMembersView;
 import com.msisuzney.minisoccer.view.fragments.TeamMembersFragment;
-
-import java.security.spec.ECField;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,7 +26,7 @@ public class TeamMembersPresenter extends MvpBasePresenter<TeamMembersView> {
             if (bundle == null || (teamId = bundle.getString(TeamMembersFragment.TEAM_ID)) == null) {
                 getView().showError(new Exception("请求参数错误"),pullToRefresh);
             }else {
-                App.getApp().getMyRetrofit().getApiService().getTeamMembers(teamId).enqueue(new Callback<TeamMembers>() {
+                MyRetrofit.getMyRetrofit().getApiService().getTeamMembers(teamId).enqueue(new Callback<TeamMembers>() {
                     @Override
                     public void onResponse(Call<TeamMembers> call, Response<TeamMembers> response) {
                         try {

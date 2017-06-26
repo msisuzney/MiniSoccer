@@ -55,6 +55,7 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG,MainActivity.class.getName());
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         toolbar.setTitle("联赛");

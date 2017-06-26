@@ -3,9 +3,8 @@ package com.msisuzney.minisoccer.presenter;
 import android.content.Intent;
 
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
-import com.msisuzney.minisoccer.App;
 import com.msisuzney.minisoccer.DQDApi.model.coach.Coach;
-import com.msisuzney.minisoccer.utils.MyRetrofit;
+import com.msisuzney.minisoccer.DQDApi.MyRetrofit;
 import com.msisuzney.minisoccer.view.CoachDetailView;
 import com.msisuzney.minisoccer.view.activities.CoachDetailActivity;
 
@@ -25,7 +24,7 @@ public class CoachDetailPresenter extends MvpBasePresenter<CoachDetailView> {
         if (intent == null || (id = intent.getStringExtra(CoachDetailActivity.ID)) == null || id.equals("")) {
             getView().showError(new Exception("请求参数错误"), false);
         } else {
-            App.getApp().getMyRetrofit().getApiService().getCoachDetail(id).enqueue(new Callback<Coach>() {
+            MyRetrofit.getMyRetrofit().getApiService().getCoachDetail(id).enqueue(new Callback<Coach>() {
                 @Override
                 public void onResponse(Call<Coach> call, Response<Coach> response) {
                     try {

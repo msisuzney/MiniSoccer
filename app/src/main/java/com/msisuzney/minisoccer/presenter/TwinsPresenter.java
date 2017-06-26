@@ -2,7 +2,6 @@ package com.msisuzney.minisoccer.presenter;
 
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
 import com.msisuzney.minisoccer.App;
-import com.msisuzney.minisoccer.DQDApi.APIService;
 import com.msisuzney.minisoccer.DQDApi.model.news.DaoSession;
 import com.msisuzney.minisoccer.DQDApi.model.news.NextUrl;
 import com.msisuzney.minisoccer.DQDApi.model.news.NextUrlDao;
@@ -10,7 +9,7 @@ import com.msisuzney.minisoccer.DQDApi.model.twins.Album;
 import com.msisuzney.minisoccer.DQDApi.model.twins.Feedlist;
 import com.msisuzney.minisoccer.DQDApi.model.twins.FeedlistDao;
 import com.msisuzney.minisoccer.DQDApi.model.twins.Twins;
-import com.msisuzney.minisoccer.utils.MyRetrofit;
+import com.msisuzney.minisoccer.DQDApi.MyRetrofit;
 import com.msisuzney.minisoccer.view.TwinsView;
 
 import org.greenrobot.greendao.query.DeleteQuery;
@@ -51,7 +50,7 @@ public class TwinsPresenter extends MvpBasePresenter<TwinsView> {
 
 
     private void loadDataFromNet(final boolean pullToRefresh, final String kind) {
-        App.getApp().getMyRetrofit().getApiService().getTwins(kind).enqueue(new Callback<Twins>() {
+        MyRetrofit.getMyRetrofit().getApiService().getTwins(kind).enqueue(new Callback<Twins>() {
             @Override
             public void onResponse(Call<Twins> call, Response<Twins> response) {
                 if (isViewAttached()) {
@@ -93,7 +92,7 @@ public class TwinsPresenter extends MvpBasePresenter<TwinsView> {
     }
 
     private void loadMoreDataFromNet(String nextPageUrl, final String kind) {
-        App.getApp().getMyRetrofit().getApiService().getMoreTwins(nextPageUrl).enqueue(new Callback<Twins>() {
+        MyRetrofit.getMyRetrofit().getApiService().getMoreTwins(nextPageUrl).enqueue(new Callback<Twins>() {
             @Override
             public void onResponse(Call<Twins> call, Response<Twins> response) {
                 if (isViewAttached()) {

@@ -1,7 +1,10 @@
 package com.msisuzney.minisoccer.presenter;
 
+import android.util.Log;
+
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
 import com.msisuzney.minisoccer.App;
+import com.msisuzney.minisoccer.DQDApi.MyRetrofit;
 import com.msisuzney.minisoccer.DQDApi.model.news.Article;
 import com.msisuzney.minisoccer.DQDApi.model.news.ArticleDao;
 import com.msisuzney.minisoccer.DQDApi.model.news.DaoSession;
@@ -13,11 +16,15 @@ import com.msisuzney.minisoccer.view.NewsView;
 import org.greenrobot.greendao.query.DeleteQuery;
 import org.greenrobot.greendao.query.Query;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import rx.Observable;
+import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by chenxin.
@@ -41,7 +48,8 @@ public class NewsPresenter extends MvpBasePresenter<NewsView> {
     public static final int LOAD_REFRESH = 0x03;
 
     private String nextPageUrl;
-
+    private DaoSession daoSession = App.getApp().getDaoSession();
+    private ArticleDao dao = daoSession.getArticleDao();
 
     public void loadData(int newsId, int mode) {
         if (mode == LOAD_REFRESH) {
@@ -65,38 +73,89 @@ public class NewsPresenter extends MvpBasePresenter<NewsView> {
      */
     private void loadDataFromNet(final int newsId, final boolean pullToRefresh) {
         String id = String.valueOf(newsId);
-        App.getApp().getMyRetrofit().getApiService().getNews(id).enqueue(new Callback<News>() {
+        MyRetrofit.getMyRetrofit().getApiService().getNews(id)
+        .subscribeOn(Schedulers.io())
+        .doOnNext(new Action1<News>() {
             @Override
-            public void onResponse(Call<News> call, Response<News> response) {
+            public void call(News news) {
+                Log.d("rxjava", "doOnNext thread " + Thread.currentThread().getName());
+                deleteAllDataInDB(newsId);//在每次需要重新加载的时候都删除所有以前的数据
+                nextPageUrl = news.getNext();
+                updateNextUrlInDB(nextPageUrl, newsId);//更新下一页的url
+            }
+        }).flatMap(new Func1<News, Observable<Article>>() {
+                @Override
+                public Observable<Article> call(News news) {
+                    return Observable.from(news.getArticles());
+                }
+         }).map(new Func1<Article, Article>() {
+            @Override
+            public Article call(Article article) {
+                Log.d("rxjava", "call thread " + Thread.currentThread().getName());
+                article.setNewsId(newsId);
+                return article;
+            }
+        }).doOnNext(new Action1<Article>() {
+            @Override
+            public void call(Article article) {
+                Log.d("rxjava", "doOnNext2 thread " + Thread.currentThread().getName());
+                addArticleToDB(article);
+            }
+        }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Article>() {
+            List<Article> articles = new ArrayList<Article>();
+
+            @Override
+            public void onCompleted() {
                 if (isViewAttached()) {
-                    try {
-                        News news = response.body();
-                        deleteAllDataInDB(newsId);//在每次需要重新加载的时候都删除所有以前的数据
-                        List<Article> articles = news.getArticles();
-                        for (int i = 0; i < articles.size(); i++) {
-                            articles.get(i).setNewsId(newsId);
-                        }
-                        addDataToDB(articles);//添加数据
-                        nextPageUrl = news.getNext();
-                        updateNextUrlInDB(nextPageUrl, newsId);//更新下一页的url
-                        getView().setData(articles);
-                        getView().showContent();
-
-                    } catch (Exception e) {
-                        getView().showError(new Exception("数据解析错误"), pullToRefresh);
-
-                    }
+                    getView().setData(articles);
+                    getView().showContent();
                 }
             }
-
             @Override
-            public void onFailure(Call<News> call, Throwable t) {
+            public void onError(Throwable e) {
                 if (isViewAttached()) {
                     getView().showError(new Exception("网络请求错误\n请检查网络连接情况后\n点击重新加载"), pullToRefresh);
-
                 }
             }
+            @Override
+            public void onNext(Article article) {
+                Log.d("rxjava", "onNext thread " + Thread.currentThread().getName());
+                articles.add(article);
+            }
         });
+
+//                .enqueue(new Callback<News>() {
+//            @Override
+//            public void onResponse(Call<News> call, Response<News> response) {
+//                if (isViewAttached()) {
+//                    try {
+//                        News news = response.body();
+//                        deleteAllDataInDB(newsId);//在每次需要重新加载的时候都删除所有以前的数据
+//                        List<Article> articles = news.getArticles();
+//                        for (int i = 0; i < articles.size(); i++) {
+//                            articles.get(i).setNewsId(newsId);
+//                        }
+//                        addDataToDB(articles);//添加数据
+//                        nextPageUrl = news.getNext();
+//                        updateNextUrlInDB(nextPageUrl, newsId);//更新下一页的url
+//                        getView().setData(articles);
+//                        getView().showContent();
+//
+//                    } catch (Exception e) {
+//                        getView().showError(new Exception("数据解析错误"), pullToRefresh);
+//
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<News> call, Throwable t) {
+//                if (isViewAttached()) {
+//                    getView().showError(new Exception("网络请求错误\n请检查网络连接情况后\n点击重新加载"), pullToRefresh);
+//
+//                }
+//            }
+//        });
     }
 
     /**
@@ -106,35 +165,88 @@ public class NewsPresenter extends MvpBasePresenter<NewsView> {
      * @param newsId      newsId
      */
     private void loadMoreDataFromNet(String nextPageUrl, final int newsId) {
-        App.getApp().getMyRetrofit().getApiService().getMoreNews(nextPageUrl).enqueue(new Callback<News>() {
-            @Override
-            public void onResponse(Call<News> call, Response<News> response) {
-                if (isViewAttached()) {
-                    try {
-                        News news = response.body();
-                        List<Article> articles = news.getArticles();
-                        for (int i = 0; i < articles.size(); i++) {
-                            articles.get(i).setNewsId(newsId);
-                        }
+        MyRetrofit.getMyRetrofit().getApiService().getMoreNews(nextPageUrl).subscribeOn(Schedulers.io())
+                .doOnNext(new Action1<News>() {
+                    @Override
+                    public void call(News news) {
+                        Log.d("rxjava", "doOnNext thread " + Thread.currentThread().getName());
                         updateNextUrlInDB(news.getNext(), newsId);//更新下一页的url
-                        addDataToDB(articles);//添加数据
-                        getView().addData(articles);
-                        getView().haveLoadMore(true);
-                    } catch (Exception e) {
-                        getView().showError(new Exception("数据解析错误"), true);
-                        getView().haveLoadMore(false);
                     }
+                })
+                .flatMap(new Func1<News, Observable<Article>>() {
+                    @Override
+                    public Observable<Article> call(News news) {
+                        return Observable.from(news.getArticles());
+                    }
+                }).map(new Func1<Article, Article>() {
+                    @Override
+                    public Article call(Article article) {
+                        Log.d("rxjava", "call thread " + Thread.currentThread().getName());
+                        article.setNewsId(newsId);
+                        return article;
+                    }
+        }).doOnNext(new Action1<Article>() {
+            @Override
+            public void call(Article article) {
+                Log.d("rxjava", "doOnNext2 thread " + Thread.currentThread().getName());
+                addArticleToDB(article);
+            }
+        }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<Article>() {
+            List<Article> articles = new ArrayList<Article>();
+
+            @Override
+            public void onCompleted() {
+                if (isViewAttached()) {
+                    getView().addData(articles);
+                    getView().haveLoadMore(true);
                 }
             }
 
             @Override
-            public void onFailure(Call<News> call, Throwable t) {
+            public void onError(Throwable e) {
                 if (isViewAttached()) {
                     getView().showError(new Exception("网络请求错误\n请检查网络连接情况后\n点击重新加载"), true);
                     getView().haveLoadMore(false);
                 }
             }
+
+            @Override
+            public void onNext(Article article) {
+                Log.d("rxjava", "onNext thread " + Thread.currentThread().getName());
+                articles.add(article);
+            }
         });
+
+
+//                .enqueue(new Callback<News>() {
+//            @Override
+//            public void onResponse(Call<News> call, Response<News> response) {
+//                if (isViewAttached()) {
+//                    try {
+//                        News news = response.body();
+//                        List<Article> articles = news.getArticles();
+//                        for (int i = 0; i < articles.size(); i++) {
+//                            articles.get(i).setNewsId(newsId);
+//                        }
+//                        updateNextUrlInDB(news.getNext(), newsId);//更新下一页的url
+//                        addDataToDB(articles);//添加数据
+//                        getView().addData(articles);
+//                        getView().haveLoadMore(true);
+//                    } catch (Exception e) {
+//                        getView().showError(new Exception("数据解析错误"), true);
+//                        getView().haveLoadMore(false);
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<News> call, Throwable t) {
+//                if (isViewAttached()) {
+//                    getView().showError(new Exception("网络请求错误\n请检查网络连接情况后\n点击重新加载"), true);
+//                    getView().haveLoadMore(false);
+//                }
+//            }
+//        });
     }
 
     /**
@@ -155,16 +267,13 @@ public class NewsPresenter extends MvpBasePresenter<NewsView> {
         }
     }
 
-    private void addDataToDB(List<Article> articles) {
-        DaoSession daoSession = App.getApp().getDaoSession();
-        ArticleDao dao = daoSession.getArticleDao();
-        for (Article article : articles) {
-            dao.insert(article);
-        }
+
+    private void addArticleToDB(Article article) {
+        dao.insert(article);
     }
 
     private void updateNextUrlInDB(String nextPageUrl, int newsId) {
-        DaoSession daoSession = App.getApp().getDaoSession();
+//        DaoSession daoSession = App.getApp().getDaoSession();
         NextUrlDao dao = daoSession.getNextUrlDao();
         List<NextUrl> nextUrls = dao.queryBuilder().where(NextUrlDao.Properties.NewsId.eq(newsId)).list();
         if (nextUrls.size() == 0) {

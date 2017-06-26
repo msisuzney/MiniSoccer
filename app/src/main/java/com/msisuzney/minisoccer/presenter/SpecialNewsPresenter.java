@@ -6,7 +6,7 @@ import com.msisuzney.minisoccer.DQDApi.model.news.DaoSession;
 import com.msisuzney.minisoccer.DQDApi.model.specialNews.ArticleSpecial;
 import com.msisuzney.minisoccer.DQDApi.model.specialNews.ArticleSpecialDao;
 import com.msisuzney.minisoccer.DQDApi.model.specialNews.SpecialNews;
-import com.msisuzney.minisoccer.utils.MyRetrofit;
+import com.msisuzney.minisoccer.DQDApi.MyRetrofit;
 import com.msisuzney.minisoccer.view.SpecialNewsView;
 
 import java.util.List;
@@ -37,7 +37,7 @@ public class SpecialNewsPresenter extends MvpBasePresenter<SpecialNewsView> {
     }
 
     private void loadDataFromNet(final boolean pullToRefresh) {
-        App.getApp().getMyRetrofit().getApiService().getSpecial().enqueue(new Callback<SpecialNews>() {
+        MyRetrofit.getMyRetrofit().getApiService().getSpecial().enqueue(new Callback<SpecialNews>() {
             @Override
             public void onResponse(Call<SpecialNews> call, Response<SpecialNews> response) {
                 if (isViewAttached()) {

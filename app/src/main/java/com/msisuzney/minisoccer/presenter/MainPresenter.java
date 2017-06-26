@@ -23,15 +23,15 @@ import com.roughike.bottombar.OnTabSelectListener;
  * 设置viewPager与bottomBar,每个viewPager中的fragment都实现了OnBottomBarPositionChangeListener接口
  * ，不管是通过点击bottomBar切换联赛还是滑动viewPager切换内容最后都通过回调OnBottomBarPositionChangeListener接口通知
  * fragment.
- *<br/>
+ * <br/>
  * bug，在按home键回到桌面后，立即回到应用点击bottomBar切换联赛正常，但过很久回来点击点击bottomBar没用
  */
 public class MainPresenter extends MvpBasePresenter<MainView> {
 
-    ViewPager viewPager;
-    MyTabFragmentAdapter adapter;
-    FragmentManager fragmentManager;
-    BottomBar bottomBar;
+    private ViewPager viewPager;
+    private MyTabFragmentAdapter adapter;
+    private FragmentManager fragmentManager;
+    private BottomBar bottomBar;
     private int mPagePosition;
     private int mBottomBarPosition;
 
@@ -69,7 +69,7 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
                 listener.onBottomBarPositionChange(mBottomBarPosition);
             }
 
-        }
+    }
 
         @Override
         public void onPageScrollStateChanged(int state) {

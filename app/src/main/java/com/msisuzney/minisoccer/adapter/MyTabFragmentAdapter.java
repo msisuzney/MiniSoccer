@@ -10,6 +10,7 @@ import com.msisuzney.minisoccer.view.fragments.PersonRankingFragment;
 import com.msisuzney.minisoccer.view.fragments.ScheduleFragment;
 import com.msisuzney.minisoccer.view.fragments.TeamRankingsFragment;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
 /**
@@ -21,7 +22,7 @@ import java.util.HashMap;
 public class MyTabFragmentAdapter extends FragmentStatePagerAdapter {
 
     private String[] tabs;
-    private HashMap<Integer, Fragment> fragments;
+    private HashMap<Integer, WeakReference<Fragment>> fragments;
 
     public MyTabFragmentAdapter(FragmentManager fm, String[] tabsName) {
         super(fm);
@@ -69,14 +70,14 @@ public class MyTabFragmentAdapter extends FragmentStatePagerAdapter {
         } else {
             fragment = BlankFragment.newInstance(position);
         }
-        fragments.put(position, fragment);
+        fragments.put(position, new WeakReference<Fragment>(fragment));
         return fragment;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
         return tabs[position];
-}
+    }
 
     @Override
     public int getCount() {
@@ -84,7 +85,9 @@ public class MyTabFragmentAdapter extends FragmentStatePagerAdapter {
     }
 
     public Fragment getFragment(int position) {
-        return fragments.get(position);
+        if (fragments.get(position) != null)
+            return fragments.get(position).get();
+        return null;
     }
 
 }

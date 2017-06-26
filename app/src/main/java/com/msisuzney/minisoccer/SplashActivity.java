@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.msisuzney.minisoccer.DQDApi.model.LaunchImg;
+import com.msisuzney.minisoccer.DQDApi.MyRetrofit;
 import com.msisuzney.minisoccer.view.activities.MainActivity;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);
 
-        App.getApp().getMyRetrofit().getApiService().getLaunchImg(URL).enqueue(new Callback<List<LaunchImg>>() {
+        MyRetrofit.getMyRetrofit().getApiService().getLaunchImg(URL).enqueue(new Callback<List<LaunchImg>>() {
             @Override
             public void onResponse(Call<List<LaunchImg>> call, Response<List<LaunchImg>> response) {
                 try {

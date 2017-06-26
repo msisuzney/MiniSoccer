@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.msisuzney.minisoccer.DQDApi.model.news.DaoMaster;
 import com.msisuzney.minisoccer.DQDApi.model.news.DaoSession;
-import com.msisuzney.minisoccer.utils.MyRetrofit;
+import com.squareup.leakcanary.LeakCanary;
 
 import org.greenrobot.greendao.database.Database;
 
@@ -14,25 +14,25 @@ import org.greenrobot.greendao.database.Database;
  * Time: 19:37.
  */
 
-public class App extends Application{
-    private DaoSession daoSession;
+public class App extends Application {
     private static App app;
-    private MyRetrofit myRetrofit = MyRetrofit.getMyRetrofit();
+    private DaoSession daoSession;
+
+    public static App getApp() {
+        return app;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this,"msisuzney-db");
+        LeakCanary.install(this);
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "msisuzney-db");
         Database db = helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
         app = this;
     }
-    public static App getApp(){
-        return app;
-    }
-    public DaoSession getDaoSession(){
+
+    public DaoSession getDaoSession() {
         return daoSession;
-    }
-    public MyRetrofit getMyRetrofit(){
-        return myRetrofit;
     }
 }

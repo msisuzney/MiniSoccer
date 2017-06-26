@@ -3,9 +3,8 @@ package com.msisuzney.minisoccer.presenter;
 import android.os.Bundle;
 
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
-import com.msisuzney.minisoccer.App;
 import com.msisuzney.minisoccer.DQDApi.model.TeamDetail;
-import com.msisuzney.minisoccer.utils.MyRetrofit;
+import com.msisuzney.minisoccer.DQDApi.MyRetrofit;
 import com.msisuzney.minisoccer.view.TeamInfoView;
 import com.msisuzney.minisoccer.view.fragments.TeamInfoFragment;
 
@@ -28,7 +27,7 @@ public class TeamInfoPresenter extends MvpBasePresenter<TeamInfoView> {
             if (b == null || (id = b.getString(TeamInfoFragment.TEAM_ID)) == null) {
                 getView().showError(new Exception("请求参数错误"), pullToRefresh);
             } else {
-                App.getApp().getMyRetrofit().getApiService().getTeamDetail(id).enqueue(new Callback<TeamDetail>() {
+                MyRetrofit.getMyRetrofit().getApiService().getTeamDetail(id).enqueue(new Callback<TeamDetail>() {
                     @Override
                     public void onResponse(Call<TeamDetail> call, Response<TeamDetail> response) {
                         try {

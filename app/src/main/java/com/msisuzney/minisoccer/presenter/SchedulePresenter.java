@@ -1,13 +1,11 @@
 package com.msisuzney.minisoccer.presenter;
 
 import com.hannesdorfmann.mosby3.mvp.MvpBasePresenter;
-import com.msisuzney.minisoccer.App;
-import com.msisuzney.minisoccer.DQDApi.APIService;
 import com.msisuzney.minisoccer.DQDApi.model.Schedule.Match;
 import com.msisuzney.minisoccer.DQDApi.model.Schedule.Round;
 import com.msisuzney.minisoccer.DQDApi.model.Schedule.Schedule;
 import com.msisuzney.minisoccer.utils.DateTransfer;
-import com.msisuzney.minisoccer.utils.MyRetrofit;
+import com.msisuzney.minisoccer.DQDApi.MyRetrofit;
 import com.msisuzney.minisoccer.view.ScheduleView;
 
 import java.util.List;
@@ -27,7 +25,7 @@ public class SchedulePresenter extends MvpBasePresenter<ScheduleView> {
     private int currentRound = -1;
 
     public void loadData(int id, final boolean pullToRefresh) {
-        App.getApp().getMyRetrofit().getApiService().getLeagueSchedule(String.valueOf(id)).enqueue(new Callback<Schedule>() {
+        MyRetrofit.getMyRetrofit().getApiService().getLeagueSchedule(String.valueOf(id)).enqueue(new Callback<Schedule>() {
             @Override
             public void onResponse(Call<Schedule> call, Response<Schedule> response) {
                 if (isViewAttached()) {
@@ -95,7 +93,7 @@ public class SchedulePresenter extends MvpBasePresenter<ScheduleView> {
                 url = rounds.get(currentRound).getUrl();
             }
         }
-        App.getApp().getMyRetrofit().getApiService().getLeagueSchedule2(url).enqueue(new Callback<Schedule>() {
+        MyRetrofit.getMyRetrofit().getApiService().getLeagueSchedule2(url).enqueue(new Callback<Schedule>() {
             @Override
             public void onResponse(Call<Schedule> call, Response<Schedule> response) {
                 if (isViewAttached()) {
