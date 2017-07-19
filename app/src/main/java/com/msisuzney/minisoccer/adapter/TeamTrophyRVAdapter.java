@@ -27,6 +27,9 @@ public class TeamTrophyRVAdapter extends RecyclerView.Adapter<TeamTrophyRVAdapte
     private Context mCon;
     private List<TeamDetail.Trophy_info> info;
 
+    //所有的TeamTrophyRV共享一个pool
+    private static RecyclerView.RecycledViewPool pool = new RecyclerView.RecycledViewPool();
+
     public TeamTrophyRVAdapter(Context mCon) {
         this.mCon = mCon;
         this.info = new ArrayList<>();
@@ -68,6 +71,7 @@ public class TeamTrophyRVAdapter extends RecyclerView.Adapter<TeamTrophyRVAdapte
             DisplayMetrics metrics = new DisplayMetrics();
             wm.getDefaultDisplay().getMetrics(metrics);
             int count = 4 ;//每排奖杯的数量
+            rv.setRecycledViewPool(pool);
             rv.setLayoutManager(new GridLayoutManager(mCon, count));
             rv.setNestedScrollingEnabled(false);
         }

@@ -54,6 +54,8 @@ public class PersonRankingFragment extends MvpLceFragment<SwipeRefreshLayout, Pe
     LinearLayoutManager linearLayoutManager;
     private String type;
     private int[] ids;
+//    造成了内存泄漏。。。MainActivity
+//    private static RecyclerView.RecycledViewPool pool = new RecyclerView.RecycledViewPool();
 
     public static PersonRankingFragment newInstance(String type) {
         Bundle args = new Bundle();
@@ -111,6 +113,7 @@ public class PersonRankingFragment extends MvpLceFragment<SwipeRefreshLayout, Pe
         });
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(adapter);
+//        recyclerView.setRecycledViewPool(pool);
     }
 
     @Override

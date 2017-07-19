@@ -10,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
@@ -65,6 +66,7 @@ public class TwinsActivity extends MvpLceActivity<SwipeRefreshLayout, List<Feedl
         final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+
         adapter = new TwinsRVAdapter(this);
         adapter.setListener(new TwinsRVAdapter.OnClickListener() {
             @Override
@@ -124,8 +126,10 @@ public class TwinsActivity extends MvpLceActivity<SwipeRefreshLayout, List<Feedl
 
     @Override
     public void addData(List<Feedlist> list) {
+
         adapter.addData(list);
-        adapter.notifyDataSetChanged();
+//        adapter.notifyDataSetChanged();
+
     }
 
     @Override

@@ -1,6 +1,5 @@
 package com.msisuzney.minisoccer.view.activities;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,12 +15,11 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.hannesdorfmann.mosby3.mvp.MvpActivity;
@@ -55,7 +53,7 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG,MainActivity.class.getName());
+        Log.d(TAG, MainActivity.class.getName());
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         toolbar.setTitle("联赛");
@@ -72,10 +70,17 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setSelectedTabIndicatorColor(Color.WHITE);
         getPresenter().init();
+        getPresenter().calculateCacheSize();
+//        File file = getExternalCacheDir();
+//        if (file != null){
+//            file.listFiles();
+//        }
+
 
     }
 
     private void init() {
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -100,6 +105,8 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
                         intent = new Intent(MainActivity.this, AboutActivity.class);
                         startActivity(intent);
                         break;
+                    case R.id.main_menu_clear_cache:
+                        showClearCacheDialog();
                 }
                 return true;
             }
@@ -111,6 +118,25 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
             editor.apply();
             showDialog();
         }
+
+    }
+
+    private void showClearCacheDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("确认清除缓存？");
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                    getPresenter().clearCache();
+            }
+        });
+        builder.create().show();
     }
 
     private void showDialog() {
@@ -156,6 +182,7 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
 
     }
 
+
     @NonNull
     @Override
     public MainPresenter createPresenter() {
@@ -166,6 +193,7 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
+
         } else {
             exit();
         }
@@ -185,6 +213,14 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
     public ViewPager getViewPager() {
         return viewPager;
 
+    }
+
+    @Override
+    public void setCacheSize(String size) {
+//        View v = LayoutInflater.from(this).inflate(R.layout.clear_cache_layout,null,false);
+//        navigationView.addView(v,10);
+        MenuItem item = navigationView.getMenu().findItem(R.id.main_menu_clear_cache);
+        item.setTitle("清除缓存  " + size);
     }
 
     @Override
@@ -223,4 +259,5 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
         }
         return -1;
     }
+
 }

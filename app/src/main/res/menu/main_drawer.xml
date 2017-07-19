@@ -6,4 +6,5 @@
     <item android:title="twins" android:id="@+id/main_menu_2" android:icon="@drawable/ic_local_see_black_24dp"/>
     <item android:title="怡人" android:id="@+id/main_menu_3" android:icon="@drawable/ic_rowing_black_24dp"/>
     <item android:title="关于" android:id="@+id/main_menu_4" android:icon="@drawable/ic_person_black_24dp"/>
+    <item android:title="清除缓存" android:id="@+id/main_menu_clear_cache" android:icon="@drawable/ic_clear_all_black_24dp"/>
 </menu>

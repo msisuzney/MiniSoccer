@@ -21,4 +21,5 @@ public interface MainView extends MvpView {
     TabLayout getTabLayout();
     String[] getTabsName();
     int getBottomBarPosition(int resId);
+    void setCacheSize(String size);
 }

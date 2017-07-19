@@ -72,23 +72,24 @@ public class NewsPresenter extends MvpBasePresenter<NewsView> {
      * @param pullToRefresh pullToRefresh
      */
     private void loadDataFromNet(final int newsId, final boolean pullToRefresh) {
+//        Log.d("loadDataFromNet", "loadDataFromNet newsId " + newsId);
         String id = String.valueOf(newsId);
         MyRetrofit.getMyRetrofit().getApiService().getNews(id)
-        .subscribeOn(Schedulers.io())
-        .doOnNext(new Action1<News>() {
+                .subscribeOn(Schedulers.io())
+                .doOnNext(new Action1<News>() {
+                    @Override
+                    public void call(News news) {
+                        Log.d("rxjava", "doOnNext thread " + Thread.currentThread().getName());
+                        deleteAllDataInDB(newsId);//在每次需要重新加载的时候都删除所有以前的数据
+                        nextPageUrl = news.getNext();
+                        updateNextUrlInDB(nextPageUrl, newsId);//更新下一页的url
+                    }
+                }).flatMap(new Func1<News, Observable<Article>>() {
             @Override
-            public void call(News news) {
-                Log.d("rxjava", "doOnNext thread " + Thread.currentThread().getName());
-                deleteAllDataInDB(newsId);//在每次需要重新加载的时候都删除所有以前的数据
-                nextPageUrl = news.getNext();
-                updateNextUrlInDB(nextPageUrl, newsId);//更新下一页的url
+            public Observable<Article> call(News news) {
+                return Observable.from(news.getArticles());
             }
-        }).flatMap(new Func1<News, Observable<Article>>() {
-                @Override
-                public Observable<Article> call(News news) {
-                    return Observable.from(news.getArticles());
-                }
-         }).map(new Func1<Article, Article>() {
+        }).map(new Func1<Article, Article>() {
             @Override
             public Article call(Article article) {
                 Log.d("rxjava", "call thread " + Thread.currentThread().getName());
@@ -111,12 +112,14 @@ public class NewsPresenter extends MvpBasePresenter<NewsView> {
                     getView().showContent();
                 }
             }
+
             @Override
             public void onError(Throwable e) {
                 if (isViewAttached()) {
                     getView().showError(new Exception("网络请求错误\n请检查网络连接情况后\n点击重新加载"), pullToRefresh);
                 }
             }
+
             @Override
             public void onNext(Article article) {
                 Log.d("rxjava", "onNext thread " + Thread.currentThread().getName());
@@ -179,12 +182,12 @@ public class NewsPresenter extends MvpBasePresenter<NewsView> {
                         return Observable.from(news.getArticles());
                     }
                 }).map(new Func1<Article, Article>() {
-                    @Override
-                    public Article call(Article article) {
-                        Log.d("rxjava", "call thread " + Thread.currentThread().getName());
-                        article.setNewsId(newsId);
-                        return article;
-                    }
+            @Override
+            public Article call(Article article) {
+                Log.d("rxjava", "call thread " + Thread.currentThread().getName());
+                article.setNewsId(newsId);
+                return article;
+            }
         }).doOnNext(new Action1<Article>() {
             @Override
             public void call(Article article) {

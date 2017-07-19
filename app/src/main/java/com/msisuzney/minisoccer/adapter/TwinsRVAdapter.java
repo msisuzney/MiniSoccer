@@ -3,6 +3,7 @@ package com.msisuzney.minisoccer.adapter;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,6 +46,7 @@ public class TwinsRVAdapter extends RecyclerView.Adapter<TwinsRVAdapter.MyViewHo
         windowManager.getDefaultDisplay().getMetrics(metrics);
         int margin = (int) (30 * (metrics.densityDpi * 1.0 / 160)); // 30dp
         picWidthPx = metrics.widthPixels - margin; //所有显示图片的宽度等于手机屏幕的宽度 - 30dp
+        setHasStableIds(true);
     }
 
     public void setListener(OnClickListener listener) {
@@ -56,7 +58,9 @@ public class TwinsRVAdapter extends RecyclerView.Adapter<TwinsRVAdapter.MyViewHo
     }
 
     public void addData(List<Feedlist> list) {
+        int start = this.list.size();
         this.list.addAll(list);
+        notifyItemRangeChanged(start,this.list.size()-1);
     }
 
     @Override
@@ -122,6 +126,12 @@ public class TwinsRVAdapter extends RecyclerView.Adapter<TwinsRVAdapter.MyViewHo
 
     public interface OnClickListener {
         void onImageClick(String imgUrl, View transitionView);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        Log.d("twins","pos " + position);
+        return list.get(position).get_id();
     }
 
     static class MyViewHolder extends RecyclerView.ViewHolder {
