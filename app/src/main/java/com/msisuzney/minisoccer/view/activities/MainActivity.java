@@ -16,7 +16,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -71,10 +70,6 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
         tabLayout.setSelectedTabIndicatorColor(Color.WHITE);
         getPresenter().init();
         getPresenter().calculateCacheSize();
-//        File file = getExternalCacheDir();
-//        if (file != null){
-//            file.listFiles();
-//        }
 
 
     }
@@ -107,6 +102,14 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
                         break;
                     case R.id.main_menu_clear_cache:
                         showClearCacheDialog();
+                        break;
+                    case R.id.twins_by_kotlin:
+                        intent = new Intent(MainActivity.this, TwinsActivityKotlin.class);
+                        intent.putExtra(TwinsPresenter.KIND, TwinsPresenter.TWINS_KIND);
+                        startActivity(intent);
+                        break;
+                    default:
+                        break;
                 }
                 return true;
             }
@@ -133,7 +136,7 @@ public class MainActivity extends MvpActivity<MainView, MainPresenter> implement
         builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                    getPresenter().clearCache();
+                getPresenter().clearCache();
             }
         });
         builder.create().show();

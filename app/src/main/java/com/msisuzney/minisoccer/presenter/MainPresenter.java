@@ -107,7 +107,7 @@ public class MainPresenter extends MvpBasePresenter<MainView> {
             File appDir = App.getApp().getExternalCacheDir();
             cacheSize(appDir);
             double MB = cacheSize / 1024.0 / 1024.0;
-            return String.format(Locale.CHINA, "%.2f", MB)+"MB";
+            return String.format(Locale.CHINA, "%.2f", MB) + "MB";
         }
 
         /**

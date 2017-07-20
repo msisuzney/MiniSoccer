@@ -26,47 +26,50 @@
         <activity
             android:name=".view.activities.MainActivity"
             android:configChanges="orientation|screenSize"
-            android:exported="true"
-            >
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+            android:exported="true">
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".view.activities.NewsDetailActivity"
-            android:configChanges="screenSize|orientation"></activity>
+            android:configChanges="screenSize|orientation" />
         <activity
             android:name=".view.activities.TeamDetailActivity"
-            android:configChanges="screenSize|orientation"></activity>
+            android:configChanges="screenSize|orientation" />
         <activity
             android:name=".view.activities.PlayerDetailActivity"
-            android:configChanges="screenSize|orientation"></activity>
+            android:configChanges="screenSize|orientation" />
         <activity
             android:name=".view.activities.CoachDetailActivity"
-            android:configChanges="screenSize|orientation"></activity>
+            android:configChanges="screenSize|orientation" />
         <activity
             android:name=".view.activities.TwinsActivity"
-            android:configChanges="orientation|screenSize"></activity>
+            android:configChanges="orientation|screenSize" />
         <activity
             android:name=".view.activities.SpecialNewsActivity"
-            android:configChanges="orientation|screenSize"></activity>
+            android:configChanges="orientation|screenSize" />
         <activity
             android:name=".view.activities.SpecialNewsColumnActivity"
-            android:configChanges="orientation|screenSize"></activity>
+            android:configChanges="orientation|screenSize" />
         <activity
             android:name=".view.activities.SearchActivity"
             android:configChanges="orientation|screenSize"
-            android:windowSoftInputMode="adjustResize"></activity>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".view.activities.AboutActivity"
-            android:configChanges="orientation|screenSize"></activity>
-        <activity android:name=".view.activities.ImageActivity"></activity>
+            android:configChanges="orientation|screenSize" />
+        <activity android:name=".view.activities.ImageActivity" />
+
         <meta-data
             android:name="com.msisuzney.minisoccer.utils.GlideDiskCacheModule"
-            android:value="GlideModule"
-            />
+            android:value="GlideModule" />
+
+        <activity android:name=".view.activities.TwinsActivityKotlin"></activity>
     </application>
 
 </manifest>
